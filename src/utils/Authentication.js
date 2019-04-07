@@ -1,3 +1,8 @@
 export default class Authentication {
-  constructor() {}
+  static setToken(token) {
+    return localStorage.setItem("token", token);
+  }
+  static isAuthenticated() {
+    return !!localStorage.getItem("token");
+  }
 }

@@ -40,10 +40,12 @@ export default props => {
       .then(res => setResponse(res.data));
   };
   return (
-    <div>
-      <GetAllUsers getAll={getAll} />
-      <GetOneUser getOne={getOne} />
-      <div>{response && <pre>{JSON.stringify(response, null, 2)}</pre>}</div>
+    <div className="main-wrapper">
+      <div className="main-container">
+        <GetAllUsers getAll={getAll} />
+        <GetOneUser getOne={getOne} />
+        <div>{response && <pre>{JSON.stringify(response, null, 2)}</pre>}</div>
+      </div>
     </div>
   );
 };

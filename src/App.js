@@ -1,17 +1,16 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { APIContext } from "./APIContext";
+import Authentication from "./utils/Authentication";
 import Login from "./Login";
 import Main from "./Main";
 import "./App.css";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const apiContext = React.useContext(APIContext);
   return (
     <Route
       {...rest}
       render={props => {
-        return apiContext.isAuthenticated ? (
+        return Authentication.isAuthenticated() ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -27,10 +26,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 };
 
 const App = () => (
-  <div>
+  <React.Fragment>
     <Route path="/login" component={Login} />
     <PrivateRoute exact path="/" component={Main} />
-  </div>
+  </React.Fragment>
 );
 
 export default App;

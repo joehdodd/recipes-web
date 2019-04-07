@@ -4,13 +4,7 @@ export default class API {
   constructor(url, key) {
     this.url = url;
     this.key = key;
-    this.isAuthenticated = false;
   }
-
-  authenticate() {
-    return (this.isAuthenticated = true);
-  }
-
   /**
    * @param {string} endpoint
    * A string representing the endpoint we wish to call
