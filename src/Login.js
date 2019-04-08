@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { APIContext } from "./APIContext";
+import Authentication from "./utils/Authentication";
 
 function loginReducer(state, action) {
   switch (action.type) {
@@ -51,8 +52,7 @@ export default props => {
         }
       })
       .then(res => {
-        console.log("login res", res);
-        apiContext.authenticate();
+        Authentication.setAuthenticated(res.data.isAuthenticated);
         dispatch({ type: "set-redirect", redirect: true });
       })
       .catch(err => {
