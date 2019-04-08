@@ -52,7 +52,7 @@ export default props => {
         }
       })
       .then(res => {
-        Authentication.setToken(res.data.token);
+        Authentication.setAuthenticated(res.data.isAuthenticated);
         dispatch({ type: "set-redirect", redirect: true });
       })
       .catch(err => {

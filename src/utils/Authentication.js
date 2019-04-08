@@ -1,8 +1,11 @@
 export default class Authentication {
-  static setToken(token) {
-    return localStorage.setItem("token", token);
+  static setAuthenticated(authenticated) {
+    return localStorage.setItem("isAuthenticated", authenticated);
   }
   static isAuthenticated() {
-    return !!localStorage.getItem("token");
+    return !!localStorage.getItem("isAuthenticated");
+  }
+  static destroy() {
+    return localStorage.removeItem("isAuthenticated");
   }
 }

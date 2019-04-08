@@ -15,7 +15,8 @@ export default class API {
     const url = `${this.url}${endpoint}`;
     return axios({
       url,
-      ...options
+      ...options,
+      withCredentials: true
     }).then(res => res);
   }
 }
