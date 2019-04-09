@@ -1,11 +1,11 @@
 export default class Authentication {
-  static setAuthenticated(authenticated) {
-    return localStorage.setItem("isAuthenticated", authenticated);
+  static setAuthenticated(session) {
+    return localStorage.setItem("session", session);
   }
   static isAuthenticated() {
-    return !!localStorage.getItem("isAuthenticated");
+    return !!localStorage.getItem("session");
   }
   static destroy() {
-    return localStorage.removeItem("isAuthenticated");
+    return localStorage.removeItem("session");
   }
 }

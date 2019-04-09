@@ -1,0 +1,105 @@
+input[type="text"],
+input[type="password"] {
+  width: 180px;
+  height: 35px;
+}
+
+button,
+input {
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+button {
+  padding: 8px;
+  color: #ecf0f1;
+  background-color: #16a085;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #009376;
+}
+
+.login-wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-rows: 0.15fr 1fr;
+  background-color: #fafafa;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+}
+
+.login-container > h2 {
+  color: #16a085;
+  margin-bottom: 0px;
+}
+
+.login-form {
+  display: grid;
+  grid-auto-flow: row;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 4px;
+}
+
+.login-form > button {
+  width: 50%;
+  justify-self: center;
+  margin-top: 8px;
+}
+
+/** MAIN **/
+
+.nav-container {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  grid-gap: 8px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #16a085;
+  padding: 8px;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  color: #009376;
+  background-color: #ecf0f1;
+  border-radius: 4px;
+}
+
+.main-wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin: 5% auto;
+}
+
+.main-container {
+  min-height: 300px;
+  width: 600px;
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.75);
+}
+
+@media screen and (min-width: 768px) {
+  .login-container {
+    min-height: 300px;
+    width: 600px;
+  }
+}
