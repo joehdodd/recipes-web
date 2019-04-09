@@ -7,10 +7,7 @@ import API from "./utils/API";
 import { APIContextProvider } from "./APIContext";
 import * as serviceWorker from "./serviceWorker";
 
-const api = new API(
-  process.env.REACT_APP_RECIPES_API_URL_LOCAL,
-  process.env.REACT_APP_RECIPES_API_KEY
-);
+const api = new API();
 
 ReactDOM.render(
   <APIContextProvider value={api}>

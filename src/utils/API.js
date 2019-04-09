@@ -1,9 +1,11 @@
 import axios from "axios";
 
 export default class API {
-  constructor(url, key) {
-    this.url = url;
-    this.key = key;
+  constructor() {
+    this.APIInstance = axios.create({
+      baseURL: process.env.REACT_APP_RECIPES_API_URL_LOCAL,
+      withCredentials: true
+    });
   }
   /**
    * @param {string} endpoint
@@ -12,11 +14,9 @@ export default class API {
    * An object of request options (e.g. method, body, etc)
    **/
   fetch(endpoint, options) {
-    const url = `${this.url}${endpoint}`;
-    return axios({
-      url,
-      ...options,
-      withCredentials: true
+    return this.APIInstance.request({
+      url: endpoint,
+      ...options
     }).then(res => res);
   }
 }
