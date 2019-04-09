@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import App from "./App";
+import App from "./components/App";
 import API from "./utils/API";
 import { APIContextProvider } from "./APIContext";
 import * as serviceWorker from "./serviceWorker";

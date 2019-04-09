@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Authentication from "../utils/Authentication";
 import Login from "./Login";
 import Main from "./Main";
@@ -10,13 +10,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props => {
-        return Authentication.isAuthenticated ? (
+        return Authentication.isAuthenticated() ? (
           <Component {...props} />
         ) : (
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: props.location.pathname }
+              state: { from: props.location }
             }}
           />
         );
@@ -25,15 +25,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-const App = () => {
-  return (
-    <React.Fragment>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <PrivateRoute component={Main} />
-      </Switch>
-    </React.Fragment>
-  );
-};
+const App = () => (
+  <React.Fragment>
+    <Route path="/login" component={Login} />
+    <PrivateRoute exact path="/" component={Main} />
+  </React.Fragment>
+);
 
 export default App;

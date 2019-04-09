@@ -52,15 +52,15 @@ export default props => {
         }
       })
       .then(res => {
-        console.log("login res", res);
-        Authentication.setAuthenticated(res.data);
+        Authentication.setAuthenticated(res.data.isAuthenticated);
         dispatch({ type: "set-redirect", redirect: true });
       })
       .catch(err => {
+        console.log("session err", err);
         dispatch({
           type: "set-error",
           error: true,
-          message: `${err.response.data.message}... 😞`
+          message: "There was an issue... 😞"
         });
       });
   };
@@ -98,7 +98,6 @@ export default props => {
             }
           />
           <button type="submit">Login</button>
-          {state.error && <span>{state.message}</span>}
         </form>
       </div>
     </div>
