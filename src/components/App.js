@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { APIProvider } from "./APIContext";
 import { AuthContext, AuthenticationProvider } from "./AuthenticationContext";
 import Login from "./Login";
@@ -7,12 +7,14 @@ import Main from "./Main";
 import "./App.css";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { isAuthenticated } = React.useContext(AuthContext);
+  const authContext = React.useContext(AuthContext);
+  console.log("auth context", authContext);
+
   return (
     <Route
       {...rest}
       render={props => {
-        return isAuthenticated() ? (
+        return !!authContext.session ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -30,10 +32,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 const App = () => (
   <React.Fragment>
     <APIProvider>
-      <AuthenticationProvider>
+      <Switch>
         <Route path="/login" component={Login} />
-        <PrivateRoute exact path="/" component={Main} />
-      </AuthenticationProvider>
+        <AuthenticationProvider>
+          <PrivateRoute exact path="/" component={Main} />
+        </AuthenticationProvider>
+      </Switch>
     </APIProvider>
   </React.Fragment>
 );

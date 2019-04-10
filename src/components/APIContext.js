@@ -8,22 +8,16 @@ const APIInstance = axios.create({
 
 const APIContext = React.createContext();
 const APIProvider = ({ children }) => {
-  const [error, setError] = React.useState(false);
   const fetch = (endpoint, options) => {
     return APIInstance.request({
       url: endpoint,
       ...options
     })
-      .then(res => {
-        console.log("API response", res);
-        return res;
-      })
-      .catch(err => setError(true));
+      .then(res => res)
+      .catch(err => console.log(err));
   };
   return (
-    <APIContext.Provider value={{ fetch, error, setError }}>
-      {children}
-    </APIContext.Provider>
+    <APIContext.Provider value={{ fetch }}>{children}</APIContext.Provider>
   );
 };
 

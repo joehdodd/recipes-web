@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import { APIContext } from "./APIContext";
 import { AuthContext } from "./AuthenticationContext";
 import "./App.css";
-
 function loginReducer(state, action) {
   switch (action.type) {
     case "on-change":
@@ -32,8 +31,9 @@ function loginReducer(state, action) {
 
 export default props => {
   let { from } = props.location.state || { from: { pathname: "/" } };
+  console.log("session?", document.cookie);
+
   const apiContext = React.useContext(APIContext);
-  const authContext = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(loginReducer, {
     inputValues: {
       username: "",
@@ -54,7 +54,6 @@ export default props => {
         }
       })
       .then(res => {
-        authContext.setAuthenticated("fart");
         dispatch({ type: "set-redirect", redirect: true });
       })
       .catch(err => {

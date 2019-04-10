@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { APIContext } from "./APIContext";
 
 // NOTE: custom hook below for setting value to state from local storage
 // const useStateWithLocalStorage = localStorageKey => {
@@ -25,31 +24,22 @@ import { APIContext } from "./APIContext";
 // };
 
 const AuthContext = React.createContext();
-
 const AuthenticationProvider = withRouter(({ history, children }) => {
-  const { error } = React.useContext(APIContext);
+  const [session, setSession] = React.useState(
+    !!document.cookie.includes("session")
+  );
   const destroy = React.useCallback(() => {
-    localStorage.removeItem("auth");
-    history.push("/");
-  });
-  const isAuthenticated = () => {
-    return !!localStorage.getItem("auth");
-  };
-  const setAuthenticated = token => {
-    return localStorage.setItem("auth", token);
-  };
+    setSession(false);
+    document.cookie = `session=; expires=${new Date()}`;
+    history.push("/login");
+  }, []);
   React.useEffect(() => {
-    console.log("api context in auth context", error);
-    if (error) {
-      console.log("error");
-      history.push("/");
-      localStorage.removeItem("auth");
+    if (!session) {
+      history.push("/login");
     }
-  }, [error]);
+  }, [session]);
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, destroy, setAuthenticated }}
-    >
+    <AuthContext.Provider value={{ session, destroy }}>
       {children}
     </AuthContext.Provider>
   );
