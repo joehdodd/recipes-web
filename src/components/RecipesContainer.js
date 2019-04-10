@@ -1,7 +1,7 @@
 import React from "react";
 import { APIContext } from "./APIContext";
 
-export default props => {
+export default () => {
   const apiContext = React.useContext(APIContext);
   const [recipes, setRecipes] = React.useState([]);
   React.useEffect(() => {
@@ -15,7 +15,7 @@ export default props => {
   }, []);
   return (
     <div>
-      <h2>Your Recipes</h2>
+      <h2>Your Stuff</h2>
       <div className="recipe-rows-container">
         {recipes.map(recipe => (
           <div className="recipe-row" key={recipe.id}>

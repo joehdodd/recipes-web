@@ -1,19 +1,11 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-// import UsersContainer from "./UsersContainer";
 import RecipesContainer from "./RecipesContainer";
-import Authentication from "../utils/Authentication";
+import { AuthContext } from "./AuthenticationContext";
 
-const LogoutButton = withRouter(({ history }) => (
-  <button
-    onClick={() => {
-      Authentication.destroy();
-      history.push("/");
-    }}
-  >
-    Log Out
-  </button>
-));
+const LogoutButton = () => {
+  const auth = React.useContext(AuthContext);
+  return <button onClick={() => auth.destroy()}>Log Out</button>;
+};
 
 export default props => {
   return (

@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { APIProvider } from "./APIContext";
 import { AuthContext, AuthenticationProvider } from "./AuthenticationContext";
-// import Authentication from "../utils/Authentication";
 import Login from "./Login";
 import Main from "./Main";
 import "./App.css";

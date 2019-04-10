@@ -9,14 +9,17 @@ const APIInstance = axios.create({
 const APIContext = React.createContext();
 const APIProvider = ({ children }) => {
   const [error, setError] = React.useState(false);
-  const fetch = React.useCallback((endpoint, options) => {
+  const fetch = (endpoint, options) => {
     return APIInstance.request({
       url: endpoint,
       ...options
     })
-      .then(res => res)
+      .then(res => {
+        console.log("API response", res);
+        return res;
+      })
       .catch(err => setError(true));
-  }, []);
+  };
   return (
     <APIContext.Provider value={{ fetch, error, setError }}>
       {children}
