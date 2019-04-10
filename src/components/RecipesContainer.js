@@ -1,5 +1,5 @@
 import React from "react";
-import { APIContext } from "../APIContext";
+import { APIContext } from "./APIContext";
 
 export default props => {
   const apiContext = React.useContext(APIContext);
@@ -10,7 +10,8 @@ export default props => {
         method: "GET",
         params: { user: true }
       })
-      .then(res => setRecipes(res.data.data));
+      .then(res => setRecipes(res.data.data))
+      .catch(err => err);
   }, []);
   return (
     <div>

@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { APIContext } from "../APIContext";
-import Authentication from "../utils/Authentication";
+import { APIContext } from "./APIContext";
+import { AuthContext } from "./AuthenticationContext";
+import "./App.css";
 
 function loginReducer(state, action) {
   switch (action.type) {
@@ -32,6 +33,7 @@ function loginReducer(state, action) {
 export default props => {
   let { from } = props.location.state || { from: { pathname: "/" } };
   const apiContext = React.useContext(APIContext);
+  const authContext = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(loginReducer, {
     inputValues: {
       username: "",
@@ -52,7 +54,7 @@ export default props => {
         }
       })
       .then(res => {
-        Authentication.setAuthenticated(res.data.isAuthenticated);
+        authContext.setAuthenticated("fart");
         dispatch({ type: "set-redirect", redirect: true });
       })
       .catch(err => {
