@@ -1,48 +1,43 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { APIContext } from "./APIContext";
-import { AuthContext } from "./AuthenticationContext";
+// import { AuthContext } from "./AuthenticationContext";
 import "./App.css";
-function loginReducer(state, action) {
-  switch (action.type) {
-    case "on-change":
-      return {
-        ...state,
-        inputValues: {
-          ...state.inputValues,
-          [action.name]: action.value
-        }
-      };
-    case "set-redirect":
-      return {
-        ...state,
-        redirect: action.redirect
-      };
-    case "set-error":
-      return {
-        ...state,
-        error: action.error,
-        message: action.message
-      };
-    default:
-      return state;
-  }
-}
 
-export default props => {
-  let { from } = props.location.state || { from: { pathname: "/" } };
-  console.log("session?", document.cookie);
-
+export default ({ createSession }) => {
   const apiContext = React.useContext(APIContext);
-  const [state, dispatch] = React.useReducer(loginReducer, {
-    inputValues: {
-      username: "",
-      password: ""
+  // const { createSession } = React.useContext(AuthContext);
+  const [state, dispatch] = React.useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case "on-change":
+          return {
+            ...state,
+            inputValues: {
+              ...state.inputValues,
+              [action.name]: action.value
+            }
+          };
+        case "set-error":
+          return {
+            ...state,
+            error: action.error,
+            message: action.message
+          };
+        default:
+          return state;
+      }
     },
-    redirect: false,
-    error: false,
-    message: ""
-  });
+    {
+      inputValues: {
+        username: "",
+        password: ""
+      },
+      redirect: false,
+      count: 0,
+      error: false,
+      message: ""
+    }
+  );
   const onSubmit = e => {
     e.preventDefault();
     apiContext
@@ -54,10 +49,11 @@ export default props => {
         }
       })
       .then(res => {
-        dispatch({ type: "set-redirect", redirect: true });
+        console.log("login success", res);
+        return createSession();
       })
       .catch(err => {
-        console.log("session err", err);
+        console.log("session err", err.response);
         dispatch({
           type: "set-error",
           error: true,
@@ -65,42 +61,37 @@ export default props => {
         });
       });
   };
-  return state.redirect ? (
-    <Redirect to={from} />
-  ) : (
+  return (
     <div className="login-wrapper">
-      <div className="login-container">
-        <h2>Welcome to Recipes!</h2>
-        <form className="login-form" onSubmit={onSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={state.inputValues.username}
-            name="username"
-            onChange={e =>
-              dispatch({
-                type: "on-change",
-                name: e.target.name,
-                value: e.target.value
-              })
-            }
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={state.password}
-            name="password"
-            onChange={e =>
-              dispatch({
-                type: "on-change",
-                name: e.target.name,
-                value: e.target.value
-              })
-            }
-          />
-          <button type="submit">Login</button>
-        </form>
-      </div>
+      <form className="login-form" onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={state.inputValues.username}
+          name="username"
+          onChange={e =>
+            dispatch({
+              type: "on-change",
+              name: e.target.name,
+              value: e.target.value
+            })
+          }
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={state.password}
+          name="password"
+          onChange={e =>
+            dispatch({
+              type: "on-change",
+              name: e.target.name,
+              value: e.target.value
+            })
+          }
+        />
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 };

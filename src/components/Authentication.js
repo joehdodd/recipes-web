@@ -22,7 +22,7 @@ import React from "react";
 //   );
 // };
 
-const AuthenticationProvider = ({ children }) => {
+export default ({ children }) => {
   const [session, setSession] = React.useState(
     !!document.cookie.includes("session")
   );
@@ -38,5 +38,3 @@ const AuthenticationProvider = ({ children }) => {
   // maybe, since we would then need to drill destroySession down pretty far...
   return children({ session, createSession, destroySession });
 };
-
-export { AuthenticationProvider };

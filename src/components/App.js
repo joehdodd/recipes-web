@@ -1,43 +1,47 @@
 import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
 import { APIProvider } from "./APIContext";
-import { AuthContext, AuthenticationProvider } from "./AuthenticationContext";
+import Authentication from "./Authentication";
 import Login from "./Login";
 import Main from "./Main";
 import "./App.css";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const authContext = React.useContext(AuthContext);
-  console.log("auth context", authContext);
-
+const LogoutButton = ({ destroySession }) => {
   return (
-    <Route
-      {...rest}
-      render={props => {
-        return !!authContext.session ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
-        );
-      }}
-    />
+    <button
+      style={{ width: 120, justifySelf: "end" }}
+      onClick={() => destroySession()}
+    >
+      Log Out
+    </button>
   );
 };
+
+const MenuBar = ({ session, createSession, destroySession }) => (
+  <div className="menu-bar-wrapper">
+    <h1 className="menu-bar-header">🍽</h1>
+    {!!session ? (
+      <LogoutButton destroySession={destroySession} />
+    ) : (
+      <Login createSession={createSession} />
+    )}
+  </div>
+);
 
 const App = () => (
   <React.Fragment>
     <APIProvider>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <AuthenticationProvider>
-          <PrivateRoute exact path="/" component={Main} />
-        </AuthenticationProvider>
-      </Switch>
+      <Authentication>
+        {({ session, createSession, destroySession }) => (
+          <React.Fragment>
+            <MenuBar
+              session={session}
+              createSession={createSession}
+              destroySession={destroySession}
+            />
+            <Main />
+          </React.Fragment>
+        )}
+      </Authentication>
     </APIProvider>
   </React.Fragment>
 );
