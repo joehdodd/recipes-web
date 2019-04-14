@@ -26,8 +26,10 @@ export default ({ children }) => {
   const [session, setSession] = React.useState(
     !!document.cookie.includes("session")
   );
-  const createSession = React.useCallback(() => {
+  const [user, setUser] = React.useState({});
+  const createSession = React.useCallback(user => {
     setSession(true);
+    setUser(user);
   }, []);
   const destroySession = React.useCallback(() => {
     setSession(false);
@@ -36,5 +38,5 @@ export default ({ children }) => {
   // NOTE: why not use children({session, destroySession, createSession}) here?
   // do we need context?
   // maybe, since we would then need to drill destroySession down pretty far...
-  return children({ session, createSession, destroySession });
+  return children({ session, createSession, destroySession, user });
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import RecipesContainer from "./RecipesContainer";
 
-export default props => {
+export default ({ user }) => {
   return (
     <div className="main-wrapper">
       <div className="main-container">
-        <RecipesContainer />
+        <RecipesContainer user={user} />
       </div>
     </div>
   );

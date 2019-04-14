@@ -27,23 +27,19 @@ const MenuBar = ({ session, createSession, destroySession }) => (
   </div>
 );
 
-const App = () => (
-  <React.Fragment>
-    <APIProvider>
-      <Authentication>
-        {({ session, createSession, destroySession }) => (
-          <React.Fragment>
-            <MenuBar
-              session={session}
-              createSession={createSession}
-              destroySession={destroySession}
-            />
-            <Main />
-          </React.Fragment>
-        )}
-      </Authentication>
-    </APIProvider>
-  </React.Fragment>
+export default () => (
+  <APIProvider>
+    <Authentication>
+      {({ session, createSession, destroySession, user }) => (
+        <React.Fragment>
+          <MenuBar
+            session={session}
+            createSession={createSession}
+            destroySession={destroySession}
+          />
+          <Main user={user} />
+        </React.Fragment>
+      )}
+    </Authentication>
+  </APIProvider>
 );
-
-export default App;

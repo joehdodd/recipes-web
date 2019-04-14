@@ -50,7 +50,7 @@ export default ({ createSession }) => {
       })
       .then(res => {
         console.log("login success", res);
-        return createSession();
+        return createSession(res.data.user);
       })
       .catch(err => {
         console.log("session err", err.response);
