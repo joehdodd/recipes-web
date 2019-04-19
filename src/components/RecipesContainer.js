@@ -1,9 +1,16 @@
 import React from "react";
 import { APIContext } from "./APIContext";
 
+const RecipeRow = ({ recipe, handleSelect }) => (
+  <div className="recipe-row" onClick={handleSelect}>
+    <h3>{recipe.title}</h3>
+  </div>
+);
+
 export default ({ user }) => {
   const apiContext = React.useContext(APIContext);
   const [recipes, setRecipes] = React.useState([]);
+  const [selectedRecipe, setSelectedRecipe] = React.useState({});
   React.useEffect(() => {
     apiContext
       .fetch("/recipes", {
@@ -14,18 +21,22 @@ export default ({ user }) => {
   }, []);
   return (
     <React.Fragment>
-      {recipes.map(recipe => (
-        <div className="recipe-row" key={recipe.id}>
-          <h3>{recipe.title}</h3>
-          {!!user.favoriteRecipes &&
-            !!user.favoriteRecipes.length &&
-            user.favoriteRecipes.find(id => id === recipe.id) && (
-              <span role="img" aria-label="Favorite star">
-                ⭐️
-              </span>
-            )}
+      {!!Object.keys(selectedRecipe).length ? (
+        <div>
+          <h1>{selectedRecipe.title}</h1>
+          <button onClick={() => setSelectedRecipe({})}>All</button>
         </div>
-      ))}
+      ) : (
+        recipes.map(recipe => (
+          <RecipeRow
+            key={recipe.id}
+            recipe={recipe}
+            handleSelect={() =>
+              setSelectedRecipe(recipes.find(r => r.id === recipe.id))
+            }
+          />
+        ))
+      )}
     </React.Fragment>
   );
 };
