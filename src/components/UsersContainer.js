@@ -1,18 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { APIContext } from "./APIContext";
-import Authentication from "./utils/Authentication";
-
-const LogoutButton = withRouter(({ history }) => (
-  <button
-    onClick={() => {
-      Authentication.destroy();
-      history.push("/");
-    }}
-  >
-    Log Out
-  </button>
-));
+import { APIContext } from "../APIContext";
 
 const GetAllUsers = ({ getAll }) => (
   <button onClick={e => getAll(e)}>Get All Users</button>
@@ -51,13 +38,10 @@ export default props => {
       .then(res => setResponse(res.data));
   };
   return (
-    <div className="main-wrapper">
-      <div className="main-container">
-        <GetAllUsers getAll={getAll} />
-        <GetOneUser getOne={getOne} />
-        <div>{response && <pre>{JSON.stringify(response, null, 2)}</pre>}</div>
-        <LogoutButton />
-      </div>
-    </div>
+    <React.Fragment>
+      <GetAllUsers getAll={getAll} />
+      <GetOneUser getOne={getOne} />
+      <div>{response && <pre>{JSON.stringify(response, null, 2)}</pre>}</div>
+    </React.Fragment>
   );
 };

@@ -1,4 +1,9 @@
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -6,7 +11,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ecf0f1;
+  background: rgb(236, 240, 241);
+  background: linear-gradient(
+    45deg,
+    rgba(236, 240, 241, 1) 0%,
+    rgba(27, 159, 132, 0.15) 100%
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 code {
@@ -21,7 +33,9 @@ input[type="password"] {
 }
 
 button,
-input {
+input,
+textarea {
+  background-color: #ecf0f1;
   border: none;
   outline: none;
   border-radius: 4px;
@@ -37,4 +51,130 @@ button {
 button:hover {
   cursor: pointer;
   background-color: #009376;
+}
+
+a {
+  width: 6rem;
+  text-decoration: none;
+  padding: 10px;
+  color: #16a085;
+  border-radius: 4px;
+  text-align: center;
+}
+
+a:hover {
+  cursor: pointer;
+  color: #009376;
+  background-color: #ecf0f1;
+}
+
+.button-full {
+  width: 100%;
+}
+
+.button-half {
+  width: 50%;
+}
+
+.button-quarter {
+  width: 25%;
+}
+
+.button-eighth {
+  width: 12.5%;
+}
+
+textarea {
+  height: 175px;
+}
+
+.menu-bar-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 0.05fr 1fr 0.75fr;
+  align-items: center;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  padding: 8px 64px;
+}
+
+.menu-bar-header {
+  margin: 0;
+  font-size: 32px;
+  color: #16a085;
+}
+
+.nav-wrapper {
+  justify-self: end;
+}
+
+.login,
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 4px;
+}
+
+.user-menu {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 4px;
+  align-items: center;
+  justify-content: end;
+}
+/** MAIN **/
+
+.main-wrapper {
+  padding: 0px 64px;
+  margin-top: 84px;
+}
+
+.main-container {
+  display: grid;
+  min-height: 400px;
+  min-width: 600px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  box-shadow: 0px 6px 12px 3px rgba(0, 0, 0, 0.15);
+}
+
+.main-container > button {
+  width: 120px;
+  align-self: flex-end;
+}
+
+.recipe-rows-container {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.recipe-row {
+  padding: 8px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.recipe-row:hover {
+  cursor: pointer;
+  background: #ecf0f1;
+}
+
+.content-section {
+  padding: 8px;
+}
+
+.grid-form-row {
+  width: 50%;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .login-container {
+    min-height: 300px;
+    width: 600px;
+  }
 }
