@@ -22,8 +22,9 @@ export default ({ user }) => {
   return (
     <React.Fragment>
       {!!Object.keys(selectedRecipe).length ? (
-        <div>
+        <div className="content-section">
           <h1>{selectedRecipe.title}</h1>
+          <p>{selectedRecipe.description}</p>
           <button onClick={() => setSelectedRecipe({})}>All</button>
         </div>
       ) : (

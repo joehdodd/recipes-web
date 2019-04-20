@@ -33,7 +33,9 @@ input[type="password"] {
 }
 
 button,
-input {
+input,
+textarea {
+  background-color: #ecf0f1;
   border: none;
   outline: none;
   border-radius: 4px;
@@ -51,13 +53,48 @@ button:hover {
   background-color: #009376;
 }
 
+a {
+  width: 6rem;
+  text-decoration: none;
+  padding: 10px;
+  color: #16a085;
+  border-radius: 4px;
+  text-align: center;
+}
+
+a:hover {
+  cursor: pointer;
+  color: #009376;
+  background-color: #ecf0f1;
+}
+
+.button-full {
+  width: 100%;
+}
+
+.button-half {
+  width: 50%;
+}
+
+.button-quarter {
+  width: 25%;
+}
+
+.button-eighth {
+  width: 12.5%;
+}
+
+textarea {
+  height: 175px;
+}
+
 .menu-bar-wrapper {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   display: grid;
-  grid-template-columns: 1fr 0.75fr;
+  grid-template-columns: 0.05fr 1fr 0.75fr;
   align-items: center;
   background-color: #fafafa;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
@@ -70,14 +107,23 @@ button:hover {
   color: #16a085;
 }
 
-.login-wrapper {
+.nav-wrapper {
   justify-self: end;
 }
 
-.login-form {
+.login,
+.nav {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 4px;
+}
+
+.user-menu {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 4px;
+  align-items: center;
+  justify-content: end;
 }
 /** MAIN **/
 
@@ -113,6 +159,17 @@ button:hover {
 .recipe-row:hover {
   cursor: pointer;
   background: #ecf0f1;
+}
+
+.content-section {
+  padding: 8px;
+}
+
+.grid-form-row {
+  width: 50%;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 8px;
 }
 
 @media screen and (min-width: 768px) {

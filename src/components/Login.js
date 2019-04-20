@@ -62,36 +62,34 @@ export default ({ createSession }) => {
       });
   };
   return (
-    <div className="login-wrapper">
-      <form className="login-form" onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={state.inputValues.username}
-          name="username"
-          onChange={e =>
-            dispatch({
-              type: "on-change",
-              name: e.target.name,
-              value: e.target.value
-            })
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={state.password}
-          name="password"
-          onChange={e =>
-            dispatch({
-              type: "on-change",
-              name: e.target.name,
-              value: e.target.value
-            })
-          }
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <form className="login" onSubmit={onSubmit}>
+      <input
+        type="text"
+        placeholder="Username"
+        value={state.inputValues.username}
+        name="username"
+        onChange={e =>
+          dispatch({
+            type: "on-change",
+            name: e.target.name,
+            value: e.target.value
+          })
+        }
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={state.password}
+        name="password"
+        onChange={e =>
+          dispatch({
+            type: "on-change",
+            name: e.target.name,
+            value: e.target.value
+          })
+        }
+      />
+      <button type="submit">Login</button>
+    </form>
   );
 };
