@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 const APIInstance = axios.create({
-  baseURL: process.env.REACT_APP_RECIPES_API_URL_LOCAL,
+  baseURL: process.env.REACT_APP_RECIPES_API_URL,
   withCredentials: true
 });
 
