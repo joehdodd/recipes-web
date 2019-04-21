@@ -12,7 +12,10 @@ const APIProvider = ({ children }) => {
     return APIInstance.request({
       url: endpoint,
       ...options
-    }).then(res => res);
+    }).then(res => {
+      console.log("server response", res);
+      return res;
+    });
   };
   return (
     <APIContext.Provider value={{ fetch }}>{children}</APIContext.Provider>
