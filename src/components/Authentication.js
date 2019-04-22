@@ -32,8 +32,12 @@ export default ({ children }) => {
     setUser(user);
   }, []);
   const destroySession = React.useCallback(() => {
+    const cookieDomain =
+      process.env.REACT_APP_ENV === "production"
+        ? ".recipes.casa"
+        : "localhost";
+    document.cookie = `JWTAuth=;expires=${new Date()}domain=${cookieDomain}`;
     setSession(false);
-    document.cookie = `JWTAuth=; expires=${new Date()}`;
   }, []);
   // NOTE: why not use children({session, destroySession, createSession}) here?
   // do we need context?

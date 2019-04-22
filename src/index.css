@@ -86,6 +86,7 @@ a:hover {
 
 textarea {
   height: 175px;
+  resize: none;
 }
 
 .menu-bar-wrapper {
@@ -134,7 +135,6 @@ textarea {
 
 .main-container {
   display: grid;
-  min-height: 400px;
   min-width: 600px;
   background-color: #fafafa;
   border-radius: 4px;

@@ -23,7 +23,11 @@ const MenuBar = withRouter(
     const { pathname } = location;
     return (
       <div className="menu-bar-wrapper">
-        <h1 className="menu-bar-header">🍽</h1>
+        <h1 className="menu-bar-header">
+          <span role="img" aria-label="Plate with knife and fork emoji">
+            🍽
+          </span>
+        </h1>
         <div className="nav">
           <Link to={pathname === "/" ? "/add-recipe" : "/"}>
             {pathname === "/" ? "Add Recipe" : "Home"}
@@ -180,7 +184,12 @@ export default () => {
                         <AddRecipeContainer />
                       ) : (
                         <section className="content-section">
-                          <h2>Hey! You gotta log in first. 😉</h2>
+                          <h2>
+                            Hey! You gotta log in first.{" "}
+                            <span role="img" aria-label="Winking face emoji">
+                              😉
+                            </span>
+                          </h2>
                         </section>
                       )
                     }
