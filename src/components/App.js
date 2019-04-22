@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Switch, withRouter } from "react-router-dom";
+import { NavLink, Link, Route, Switch, withRouter } from "react-router-dom";
 import { APIProvider, APIContext } from "./APIContext";
 import Authentication from "./Authentication";
 import Login from "./Login";
@@ -18,37 +18,51 @@ const LogoutButton = ({ destroySession }) => {
   );
 };
 
-const MenuBar = withRouter(
-  ({ location, session, createSession, destroySession }) => {
-    const { pathname } = location;
-    return (
-      <div className="menu-bar-wrapper">
-        <h1 className="menu-bar-header">
+const MenuBar = withRouter(({ session, createSession, destroySession }) => {
+  return (
+    <div className="menu-bar-wrapper">
+      <h1 className="menu-bar-header">
+        <Link to="/">
           <span role="img" aria-label="Plate with knife and fork emoji">
             🍽
           </span>
-        </h1>
-        <div className="nav">
-          <Link to={pathname === "/" ? "/add-recipe" : "/"}>
-            {pathname === "/" ? "Add Recipe" : "Home"}
-          </Link>
-        </div>
-        <div className="user-menu">
-          {!!session ? (
-            <LogoutButton destroySession={destroySession} />
-          ) : (
-            <>
-              <Login createSession={createSession} />
-              <Link to="/sign-up">Sign Up?</Link>
-            </>
-          )}
-        </div>
+        </Link>
+      </h1>
+      <div className="nav">
+        <NavLink
+          activeClassName="active-nav"
+          to={{ pathname: "/user-recipes", state: { title: "Your Recipes" } }}
+        >
+          {"Your Recipes"}
+        </NavLink>
+        <NavLink
+          activeClassName="active-nav"
+          to={{ pathname: "/add-recipe", state: { title: "Add Recipe" } }}
+        >
+          {"Add Recipe"}
+        </NavLink>
+        <NavLink
+          activeClassName="active-nav"
+          to={{ pathname: "/user-profile", state: { title: "Profile" } }}
+        >
+          {"Profile"}
+        </NavLink>
       </div>
-    );
-  }
-);
+      <div className="user-menu">
+        {session ? (
+          <LogoutButton destroySession={destroySession} />
+        ) : (
+          <>
+            <Login createSession={createSession} />
+            <Link to="/sign-up">Sign Up?</Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+});
 
-const AddRecipeContainer = withRouter(({ history }) => {
+const AddRecipeContainer = withRouter(({ location, history }) => {
   const api = React.useContext(APIContext);
   const [state, dispatch] = React.useReducer(
     (state, action) => {
@@ -76,7 +90,7 @@ const AddRecipeContainer = withRouter(({ history }) => {
   );
   return (
     <div className="content-section">
-      <h2>Add a New Recipe</h2>
+      <h2>{location.state.title}</h2>
       <form
         className="grid-form-row"
         onSubmit={e => {
@@ -93,7 +107,7 @@ const AddRecipeContainer = withRouter(({ history }) => {
             });
         }}
       >
-        <label for="title">Title</label>
+        <label htmlFor="title">Title</label>
         <input
           required
           type="text"
@@ -108,7 +122,7 @@ const AddRecipeContainer = withRouter(({ history }) => {
             });
           }}
         />
-        <label for="description">Description</label>
+        <label htmlFor="description">Description</label>
         <textarea
           required
           name="description"
@@ -122,7 +136,7 @@ const AddRecipeContainer = withRouter(({ history }) => {
             });
           }}
         />
-        <label for="ingredients">Ingredients</label>
+        <label htmlFor="ingredients">Ingredients</label>
         <textarea
           required
           placeholder="Please list each ingredient separated by a comma"
@@ -137,7 +151,7 @@ const AddRecipeContainer = withRouter(({ history }) => {
             });
           }}
         />
-        <label for="instructions">Instructions</label>
+        <label htmlFor="instructions">Instructions</label>
         <textarea
           required
           placeholder="Please list each step separated by a comma"
@@ -160,50 +174,67 @@ const AddRecipeContainer = withRouter(({ history }) => {
   );
 });
 
+const ProtectedRoutes = withRouter(({ location, session }) =>
+  session ? (
+    <>
+      <Route exact path="/add-recipe" render={() => <AddRecipeContainer />} />
+      <Route
+        exact
+        path="/user-profile"
+        render={() => (
+          <section className="content-section">
+            <h2>Profile</h2>
+          </section>
+        )}
+      />
+      <Route
+        exact
+        path="/user-recipes"
+        render={() => (
+          <section className="content-section">
+            <h2>Your Recipes</h2>
+          </section>
+        )}
+      />
+    </>
+  ) : (
+    <section className="content-section">
+      {location.state.title && <h2>{location.state.title}</h2>}
+      <h3>
+        Hey! You gotta log in first.{" "}
+        <span role="img" aria-label="Winking face emoji">
+          😉
+        </span>
+      </h3>
+    </section>
+  )
+);
+
 export default () => {
-  const [adding, setAdding] = React.useState(false);
   return (
     <APIProvider>
       <Authentication>
         {({ session, createSession, destroySession, user }) => (
-          <React.Fragment>
+          <>
             <MenuBar
               session={session}
               createSession={createSession}
               destroySession={destroySession}
-              adding={adding}
-              handleAdding={() => setAdding(!adding)}
             />
             <div className="main-wrapper">
               <div className="main-container">
                 <Switch>
                   <Route
-                    path="/add-recipe"
-                    render={() =>
-                      session ? (
-                        <AddRecipeContainer />
-                      ) : (
-                        <section className="content-section">
-                          <h2>
-                            Hey! You gotta log in first.{" "}
-                            <span role="img" aria-label="Winking face emoji">
-                              😉
-                            </span>
-                          </h2>
-                        </section>
-                      )
-                    }
-                  />
-                  <Route
                     exact
                     path="/"
                     render={() => <RecipesContainer user={user} />}
                   />
-                  <Route path="/sign-up" component={SignUp} />
+                  <Route exact path="/sign-up" component={SignUp} />
+                  <ProtectedRoutes session={session} />
                 </Switch>
               </div>
             </div>
-          </React.Fragment>
+          </>
         )}
       </Authentication>
     </APIProvider>
