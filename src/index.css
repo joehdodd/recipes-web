@@ -54,7 +54,6 @@ button:hover {
 }
 
 a {
-  width: 6rem;
   text-decoration: none;
   padding: 10px;
   color: #16a085;
@@ -66,6 +65,11 @@ a:hover {
   cursor: pointer;
   color: #009376;
   background-color: #ecf0f1;
+}
+
+.active-nav {
+  background-color: #ecf0f1;
+  font-weight: bold;
 }
 
 .button-full {
@@ -86,25 +90,25 @@ a:hover {
 
 textarea {
   height: 175px;
+  resize: none;
 }
 
 .menu-bar-wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
   display: grid;
-  grid-template-columns: 0.05fr 1fr 0.75fr;
+  grid-auto-flow: row;
   align-items: center;
-  background-color: #fafafa;
-  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-  padding: 8px 64px;
+  justify-content: center;
+  padding: 8px;
 }
 
 .menu-bar-header {
   margin: 0;
   font-size: 32px;
   color: #16a085;
+}
+
+.site-icon {
+  font-size: 32px;
 }
 
 .nav-wrapper {
@@ -114,28 +118,33 @@ textarea {
 .login,
 .nav {
   display: grid;
-  grid-auto-flow: column;
+  align-items: center;
   grid-gap: 4px;
 }
 
+.login {
+  grid-auto-flow: row;
+}
+
+.nav {
+  grid-auto-flow: column;
+}
 .user-menu {
   display: grid;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
   grid-gap: 4px;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
 }
 /** MAIN **/
 
 .main-wrapper {
-  padding: 0px 64px;
-  margin-top: 84px;
+  padding: 8px;
 }
 
 .main-container {
   display: grid;
-  min-height: 400px;
-  min-width: 600px;
+  width: 100%;
   background-color: #fafafa;
   border-radius: 4px;
   box-shadow: 0px 6px 12px 3px rgba(0, 0, 0, 0.15);
@@ -161,20 +170,62 @@ textarea {
   background: #ecf0f1;
 }
 
+.recipe-instruction-item {
+  font-size: 24px;
+}
+
+.recipe-instruction-item span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
 .content-section {
   padding: 8px;
 }
 
 .grid-form-row {
-  width: 50%;
   display: grid;
   grid-auto-flow: row;
   grid-gap: 8px;
+}
+
+.profile-wrapper {
+  display: grid;
+  grid-gap: 4px;
+  grid-auto-flow: row;
 }
 
 @media screen and (min-width: 768px) {
   .login-container {
     min-height: 300px;
     width: 600px;
+  }
+
+  .menu-bar-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    align-items: center;
+    background-color: #fafafa;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+    padding: 8px 64px;
+  }
+
+  .main-wrapper {
+    padding: 0px 64px;
+    margin-top: 84px;
+  }
+
+  .grid-form-row {
+    width: 50%;
+  }
+
+  .user-menu,
+  .login {
+    grid-auto-flow: column;
+    justify-self: end;
   }
 }

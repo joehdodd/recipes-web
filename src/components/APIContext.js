@@ -1,8 +1,13 @@
 import React from "react";
 import axios from "axios";
 
+const baseURL =
+  process.env.REACT_APP_ENV === "production"
+    ? process.env.REACT_APP_RECIPES_API_URL
+    : process.env.REACT_APP_RECIPES_API_LOCAL;
+
 const APIInstance = axios.create({
-  baseURL: process.env.REACT_APP_RECIPES_API_URL,
+  baseURL,
   withCredentials: true
 });
 

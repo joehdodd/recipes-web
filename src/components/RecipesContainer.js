@@ -17,24 +17,35 @@ export default ({ user }) => {
   React.useEffect(() => {
     apiContext
       .fetch("/recipes", {
+        params: { user },
         method: "GET"
       })
       .then(res => setRecipes(res.data.data))
       .catch(err => err);
-  }, []);
+  }, [user]);
   return (
     <React.Fragment>
       {!!Object.keys(selectedRecipe).length ? (
         <div className="content-section">
           <h1>{selectedRecipe.title}</h1>
           <p>{selectedRecipe.description}</p>
+          <h2>Ingredients</h2>
           <ul>
             {!!selectedRecipe.ingredients &&
-              selectedRecipe.ingredients.map(ing => <li>{ing}</li>)}
+              selectedRecipe.ingredients.map(ing => (
+                <li className="recipe-ingredient-item">
+                  <span>{ing}</span>
+                </li>
+              ))}
           </ul>
+          <h2>Instructions</h2>
           <ol>
             {!!selectedRecipe.instructions &&
-              selectedRecipe.instructions.map((inst, i) => <li>{inst}</li>)}
+              selectedRecipe.instructions.map((inst, i) => (
+                <li className="recipe-instruction-item">
+                  <span>{inst}</span>
+                </li>
+              ))}
           </ol>
           <button onClick={() => setSelectedRecipe({})}>All</button>
         </div>
