@@ -161,6 +161,15 @@ textarea {
   background: #ecf0f1;
 }
 
+.recipe-instruction-item {
+  font-size: 24px;
+}
+
+.recipe-instruction-item span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
 .content-section {
   padding: 8px;
 }
