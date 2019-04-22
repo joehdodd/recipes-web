@@ -17,11 +17,12 @@ export default ({ user }) => {
   React.useEffect(() => {
     apiContext
       .fetch("/recipes", {
+        params: { user },
         method: "GET"
       })
       .then(res => setRecipes(res.data.data))
       .catch(err => err);
-  }, []);
+  }, [user]);
   return (
     <React.Fragment>
       {!!Object.keys(selectedRecipe).length ? (
