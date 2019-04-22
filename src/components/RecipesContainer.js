@@ -1,11 +1,14 @@
 import React from "react";
 import { APIContext } from "./APIContext";
 
-const RecipeRow = ({ recipe, handleSelect }) => (
-  <div className="recipe-row" onClick={handleSelect}>
-    <h3>{recipe.title}</h3>
-  </div>
-);
+const RecipeRow = ({ recipe, handleSelect }) => {
+  console.log("recipe", recipe);
+  return (
+    <div className="recipe-row" onClick={handleSelect}>
+      <h3>{recipe.title}</h3>
+    </div>
+  );
+};
 
 export default ({ user }) => {
   const apiContext = React.useContext(APIContext);
@@ -25,6 +28,14 @@ export default ({ user }) => {
         <div className="content-section">
           <h1>{selectedRecipe.title}</h1>
           <p>{selectedRecipe.description}</p>
+          <ul>
+            {!!selectedRecipe.ingredients &&
+              selectedRecipe.ingredients.map(ing => <li>{ing}</li>)}
+          </ul>
+          <ol>
+            {!!selectedRecipe.instructions &&
+              selectedRecipe.instructions.map((inst, i) => <li>{inst}</li>)}
+          </ol>
           <button onClick={() => setSelectedRecipe({})}>All</button>
         </div>
       ) : (
