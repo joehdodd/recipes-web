@@ -24,7 +24,7 @@ import React from "react";
 
 export default ({ children }) => {
   const [session, setSession] = React.useState(
-    !!document.cookie.includes("session")
+    !!document.cookie.includes("JWTAuth")
   );
   const [user, setUser] = React.useState({});
   const createSession = React.useCallback(user => {
@@ -33,7 +33,7 @@ export default ({ children }) => {
   }, []);
   const destroySession = React.useCallback(() => {
     setSession(false);
-    document.cookie = `session=; expires=${new Date()}`;
+    document.cookie = `JWTAuth=; expires=${new Date()}`;
   }, []);
   // NOTE: why not use children({session, destroySession, createSession}) here?
   // do we need context?
