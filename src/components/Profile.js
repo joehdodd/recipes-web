@@ -29,13 +29,11 @@ export default ({ userId, destroySession }) => {
       <h2>Profile</h2>
       <div className="profile-wrapper">
         {!!user && (
-          <>
-            <span>
-              {user.firstName} {user.lastName}
-            </span>
-            <LogoutButton destroySession={destroySession} />
-          </>
+          <span>
+            {user.firstName} {user.lastName}
+          </span>
         )}
+        <LogoutButton destroySession={destroySession} />
       </div>
     </section>
   );

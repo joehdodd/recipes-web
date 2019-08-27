@@ -6,7 +6,7 @@ export default withRouter(({ session, createSession, destroySession }) => {
   return (
     <header className="menu-bar-wrapper">
       <div className="nav">
-        <NavLink to="/" activeClassName="active-nav">
+        <Link to="/">
           <span
             className="site-icon"
             role="img"
@@ -14,7 +14,7 @@ export default withRouter(({ session, createSession, destroySession }) => {
           >
             🍽
           </span>
-        </NavLink>
+        </Link>
         <NavLink
           activeClassName="active-nav"
           to={{ pathname: "/user-recipes", state: { title: "Your Recipes" } }}
