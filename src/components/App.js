@@ -24,14 +24,7 @@ const ProtectedRoutes = withRouter(
         <Route
           exact
           path="/user-recipes"
-          render={() => (
-            <>
-              <section className="content-section">
-                <h2>Your Recipes</h2>
-              </section>
-              <RecipesContainer user={user} />
-            </>
-          )}
+          render={() => <RecipesContainer user={user} />}
         />
       </>
     ) : (

@@ -1,6 +1,6 @@
 import React from "react";
 import { APIContext } from "./APIContext";
-import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom"
 
 export default withRouter(({ location, history }) => {
   const api = React.useContext(APIContext);
@@ -30,7 +30,6 @@ export default withRouter(({ location, history }) => {
   );
   return (
     <div className="content-section">
-      <h2>{location.state.title}</h2>
       <form
         className="grid-form-row"
         onSubmit={e => {
