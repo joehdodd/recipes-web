@@ -215,8 +215,8 @@ textarea {
   }
 
   .main-wrapper {
-    padding: 0px 64px;
-    margin-top: 84px;
+    margin: 84px auto;
+    width: 75%;
   }
 
   .grid-form-row {
@@ -227,5 +227,11 @@ textarea {
   .login {
     grid-auto-flow: column;
     justify-self: end;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .main-wrapper {
+    width: 50%;
   }
 }
