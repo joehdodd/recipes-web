@@ -11,12 +11,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: rgb(236, 240, 241);
-  background: linear-gradient(
+  background: #f4f4f9;
+  /* background: linear-gradient(
     45deg,
-    rgba(236, 240, 241, 1) 0%,
-    rgba(27, 159, 132, 0.15) 100%
-  );
+    #f4f4f9 0%,
+    rgba(88, 111, 124, .25) 100%
+  ); */
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -45,30 +45,30 @@ textarea {
 button {
   padding: 8px;
   color: #ecf0f1;
-  background-color: #16a085;
+  background-color: #586f7c;
 }
 
 button:hover {
   cursor: pointer;
-  background-color: #009376;
+  background-color: #2f4550;
 }
 
 a {
   text-decoration: none;
   padding: 10px;
-  color: #16a085;
+  color: #586f7c;
   border-radius: 4px;
   text-align: center;
 }
 
 a:hover {
   cursor: pointer;
-  color: #009376;
-  background-color: #ecf0f1;
+  color: #2f4550;
+  background-color: #f4f4f9;
 }
 
 .active-nav {
-  background-color: #ecf0f1;
+  background-color: #f4f4f9;
   font-weight: bold;
 }
 
@@ -215,8 +215,8 @@ textarea {
   }
 
   .main-wrapper {
-    padding: 0px 64px;
-    margin-top: 84px;
+    margin: 84px auto;
+    width: 75%;
   }
 
   .grid-form-row {
@@ -227,5 +227,11 @@ textarea {
   .login {
     grid-auto-flow: column;
     justify-self: end;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .main-wrapper {
+    width: 50%;
   }
 }

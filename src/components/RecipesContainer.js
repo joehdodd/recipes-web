@@ -15,9 +15,9 @@ export default ({ user }) => {
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
   React.useEffect(() => {
+    const endpoint = !!user ? `/users/${user}/recipes` : "/recipes";
     apiContext
-      .fetch("/recipes", {
-        params: { user },
+      .fetch(endpoint, {
         method: "GET"
       })
       .then(res => setRecipes(res.data.data))
