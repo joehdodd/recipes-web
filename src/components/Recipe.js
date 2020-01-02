@@ -14,7 +14,7 @@ export default ({ selectedRecipe, handleEditRecipe, setSelectedRecipe }) => (
         <ul>
           {!!selectedRecipe.ingredients &&
             selectedRecipe.ingredients.map((ing, i) => (
-              <li className="recipe-ingredient-item">
+              <li key={`ingredient_${i}`} className="recipe-ingredient-item">
                 <span>{ing[`ingredient_${i + 1}`]}</span>
               </li>
             ))}
@@ -23,7 +23,7 @@ export default ({ selectedRecipe, handleEditRecipe, setSelectedRecipe }) => (
         <ol>
           {!!selectedRecipe.instructions &&
             selectedRecipe.instructions.map((inst, i) => (
-              <li className="recipe-instruction-item">
+              <li key={`instruction_${i}`} className="recipe-instruction-item">
                 <span>{inst[`instruction_${i + 1}`]}</span>
               </li>
             ))}

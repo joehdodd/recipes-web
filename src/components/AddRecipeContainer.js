@@ -23,7 +23,6 @@ export default withRouter(({ location, history }) => {
         }
       })
       .then(res => {
-        console.log("add recipe res", res);
         history.push({ pathname: "/", state: { ...res.data.data } });
       });
   };

@@ -213,6 +213,10 @@ textarea {
   border-bottom: 1px solid #ecf0f1;
 }
 
+.recipe-row h3 {
+  color: #586f7c;
+}
+
 .recipe-row:hover {
   cursor: pointer;
   background: #ecf0f1;
