@@ -40,13 +40,16 @@ export default withRouter(({ user, location }) => {
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
   const [editingRecipe, setEditingRecipe] = React.useState(false);
+  const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
     const endpoint = !!user ? `/users/${user}/recipes` : "/recipes";
+    setFetching(true);
     apiContext
       .fetch(endpoint, {
         method: "GET"
       })
       .then(res => {
+        setFetching(false);
         setRecipes(res.data.data);
       })
       .catch(err => err);
@@ -103,14 +106,30 @@ export default withRouter(({ user, location }) => {
   };
   return (
     <React.Fragment>
-      {!!Object.keys(selectedRecipe).length ? (
-        handleRenderRecipe()
-      ) : (
-        <Recipes
-          text={user ? "You don't have any recipes!" : "There are no recipes!"}
-          recipes={recipes}
-          setSelectedRecipe={setSelectedRecipe}
-        />
+      {!fetching && (
+        <>
+          {!!Object.keys(selectedRecipe).length ? (
+            handleRenderRecipe()
+          ) : (
+            <Recipes
+              text={
+                user ? "You don't have any recipes!" : "There are no recipes!"
+              }
+              recipes={recipes}
+              setSelectedRecipe={setSelectedRecipe}
+            />
+          )}
+        </>
+      )}
+      {fetching && (
+        <div className="recipe-row">
+          <h3>
+            Loading yummy...{" "}
+            <span role="img" aria-label="Yummy emoji">
+              😋
+            </span>
+          </h3>
+        </div>
       )}
     </React.Fragment>
   );
