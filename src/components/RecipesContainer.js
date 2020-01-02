@@ -5,10 +5,32 @@ import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
 
 const RecipeRow = ({ recipe, handleSelect }) => {
-  console.log("recipe", recipe);
   return (
     <div className="recipe-row" onClick={handleSelect}>
       <h3>{recipe.title}</h3>
+    </div>
+  );
+};
+
+const Recipes = ({ text, recipes, setSelectedRecipe }) => {
+  return recipes && recipes.length ? (
+    recipes.map(recipe => (
+      <RecipeRow
+        key={recipe.id}
+        recipe={recipe}
+        handleSelect={() =>
+          setSelectedRecipe(recipes.find(r => r.id === recipe.id))
+        }
+      />
+    ))
+  ) : (
+    <div className="recipe-row">
+      <h3>
+        Whoops! {text}{" "}
+        <span role="img" aria-label="crying emoji">
+          😩
+        </span>
+      </h3>
     </div>
   );
 };
@@ -18,7 +40,6 @@ export default withRouter(({ user, location }) => {
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
   const [editingRecipe, setEditingRecipe] = React.useState(false);
-  console.log('*user', user)
   React.useEffect(() => {
     const endpoint = !!user ? `/users/${user}/recipes` : "/recipes";
     apiContext
@@ -26,8 +47,7 @@ export default withRouter(({ user, location }) => {
         method: "GET"
       })
       .then(res => {
-        console.log("******set recipes res", res)
-        setRecipes(res.data.data)
+        setRecipes(res.data.data);
       })
       .catch(err => err);
   }, [user]);
@@ -81,20 +101,17 @@ export default withRouter(({ user, location }) => {
       />
     );
   };
-  console.log("selected****", selectedRecipe);
   return (
     <React.Fragment>
-      {!!Object.keys(selectedRecipe).length
-        ? handleRenderRecipe()
-        : recipes.map(recipe => (
-            <RecipeRow
-              key={recipe.id}
-              recipe={recipe}
-              handleSelect={() =>
-                setSelectedRecipe(recipes.find(r => r.id === recipe.id))
-              }
-            />
-          ))}
+      {!!Object.keys(selectedRecipe).length ? (
+        handleRenderRecipe()
+      ) : (
+        <Recipes
+          text={user ? "You don't have any recipes!" : "There are no recipes!"}
+          recipes={recipes}
+          setSelectedRecipe={setSelectedRecipe}
+        />
+      )}
     </React.Fragment>
   );
 });

@@ -47,30 +47,41 @@ const IterativeInput = ({
   );
 };
 
-export default withRouter(({ handleSubmit, inputValues = {} }) => {
+export default withRouter(({ handleSubmit, inputValues }) => {
   React.useEffect(() => {
-    Object.entries(inputValues).forEach(([key, value]) => {
-      return key === "ingredients" || key === "instructions"
-        ? value.map(obj =>
-            dispatch({
+    if (inputValues) {
+      dispatch({
+        type: "set-itr-count",
+        name: "ingredientCount",
+        count: inputValues.ingredients.length
+      });
+      dispatch({
+        type: "set-itr-count",
+        name: "instructionCount",
+        count: inputValues.instructions.length
+      });
+      Object.entries(inputValues).forEach(([key, value]) => {
+        return key === "ingredients" || key === "instructions"
+          ? value.map(obj =>
+              dispatch({
+                type: "on-change",
+                inputType: key,
+                name: Object.keys(obj)[0],
+                value: Object.values(obj)[0]
+              })
+            )
+          : dispatch({
               type: "on-change",
-              inputType: key,
-              name: Object.keys(obj)[0],
-              value: Object.values(obj)[0]
-            })
-          )
-        : dispatch({
-            type: "on-change",
-            name: key,
-            value: value
-          });
-    });
+              name: key,
+              value: value
+            });
+      });
+    }
   }, [inputValues]);
   const [state, dispatch] = React.useReducer(
     (state, action) => {
       switch (action.type) {
         case "on-change":
-          console.log("on-change action", action);
           if (action.inputType) {
             return {
               ...state,
@@ -91,6 +102,11 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
               }
             };
           }
+        case "set-itr-count":
+          return {
+            ...state,
+            [action.name]: action.count
+          };
         case "increment-ing-count":
           return {
             ...state,
@@ -138,8 +154,6 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
       }
     }
   );
-  // const handleSubmit = () => {};
-  console.log("state ***", state);
   return (
     <div className="content-section">
       <form className="grid-form-row">
