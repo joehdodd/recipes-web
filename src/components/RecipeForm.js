@@ -49,30 +49,48 @@ const IterativeInput = ({
 
 export default withRouter(({ handleSubmit, inputValues = {} }) => {
   React.useEffect(() => {
-    Object.entries(inputValues).forEach(entry => {
-      return dispatch({
-        type: "on-change",
-        name: entry[0],
-        value: entry[1]
-      });
+    Object.entries(inputValues).forEach(([key, value]) => {
+      return key === "ingredients" || key === "instructions"
+        ? value.map(obj =>
+            dispatch({
+              type: "on-change",
+              inputType: key,
+              name: Object.keys(obj)[0],
+              value: Object.values(obj)[0]
+            })
+          )
+        : dispatch({
+            type: "on-change",
+            name: key,
+            value: value
+          });
     });
   }, [inputValues]);
   const [state, dispatch] = React.useReducer(
     (state, action) => {
       switch (action.type) {
         case "on-change":
-          console.log(action.name, action.value)
-          return {
-            ...state,
-            inputValues: {
-              ...state.inputValues,
-              [action.name]:
-                action.name.includes("ingredients") ||
-                action.name.includes("instructions")
-                  ? { ...action.name.split("_")[0], [action.name]: action.value }
-                  : action.value
-            }
-          };
+          console.log("on-change action", action);
+          if (action.inputType) {
+            return {
+              ...state,
+              inputValues: {
+                ...state.inputValues,
+                [action.inputType]: {
+                  ...state.inputValues[action.inputType],
+                  [action.name]: action.value
+                }
+              }
+            };
+          } else {
+            return {
+              ...state,
+              inputValues: {
+                ...state.inputValues,
+                [action.name]: action.value
+              }
+            };
+          }
         case "increment-ing-count":
           return {
             ...state,
@@ -112,15 +130,16 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
         title: "",
         description: "",
         ingredients: {
-          ingredients_1: ""
+          ingredient_1: ""
         },
         instructions: {
-          instructions_1: ""
+          instruction_1: ""
         }
       }
     }
   );
   // const handleSubmit = () => {};
+  console.log("state ***", state);
   return (
     <div className="content-section">
       <form className="grid-form-row">
@@ -131,7 +150,6 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
           name="title"
           value={state.inputValues.title}
           onChange={e => {
-            console.log("input", e.target.name, e.target.value);
             dispatch({
               type: "on-change",
               name: e.target.name,
@@ -145,7 +163,6 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
           name="description"
           value={state.inputValues.description}
           onChange={e => {
-            console.log("input", e.target.name, e.target.value);
             dispatch({
               type: "on-change",
               name: e.target.name,
@@ -156,12 +173,13 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
         <label htmlFor="ingredients">Ingredients</label>
         <IterativeInput
           count={state.ingredientCount}
-          name="ingredients"
+          name="ingredient"
           label="Ingredients"
           values={state.inputValues.ingredients}
           onChange={e => {
             dispatch({
               type: "on-change",
+              inputType: "ingredients",
               name: e.target.name,
               value: e.target.value
             });
@@ -180,12 +198,13 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
         <label htmlFor="instructions">Instructions</label>
         <IterativeInput
           count={state.instructionCount}
-          name="instructions"
-          label="Instruction"
+          name="instruction"
+          label="Instructions"
           values={state.inputValues.instructions}
           onChange={e => {
             dispatch({
-              type: "on-change-iterative",
+              type: "on-change",
+              inputType: "instructions",
               name: e.target.name,
               value: e.target.value
             });
@@ -199,20 +218,6 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
             e.stopPropagation();
             e.preventDefault();
             dispatch({ type: "increment-inst-count" });
-          }}
-        />
-        <textarea
-          required
-          placeholder="Please list each step separated by a comma"
-          name="instructions"
-          value={state.inputValues.instructions}
-          onChange={e => {
-            console.log("input", e.target.name, e.target.value);
-            dispatch({
-              type: "on-change",
-              name: e.target.name,
-              value: e.target.value
-            });
           }}
         />
         <button

@@ -5,41 +5,26 @@ import { withRouter } from "react-router-dom";
 
 export default withRouter(({ location, history }) => {
   const api = React.useContext(APIContext);
-  const [state, dispatch] = React.useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case "on-change":
-          return {
-            ...state,
-            inputValues: {
-              ...state.inputValues,
-              [action.name]: action.value
-            }
-          };
-        default:
-          return state;
-      }
-    },
-    {
-      inputValues: {
-        title: "",
-        description: "",
-        ingredients: "",
-        instructions: ""
-      }
-    }
-  );
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = inputValues => {
+    const instructionsArray = Object.entries(
+      inputValues.instructions
+    ).map(([key, value]) => ({ [key]: value }));
+    const ingredientsArray = Object.entries(
+      inputValues.ingredients
+    ).map(([key, value]) => ({ [key]: value }));
     return api
       .fetch("/recipes", {
         method: "POST",
         data: {
-          ...state.inputValues
+          title: inputValues.title,
+          description: inputValues.description,
+          instructionsArray,
+          ingredientsArray
         }
       })
       .then(res => {
-        history.push("/");
+        console.log("add recipe res", res);
+        history.push({ pathname: "/", state: { ...res.data.data } });
       });
   };
   return (

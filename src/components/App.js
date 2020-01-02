@@ -29,7 +29,6 @@ const ProtectedRoutes = withRouter(
       </>
     ) : (
       <section className="content-section">
-        {location.state.title && <h2>{location.state.title}</h2>}
         <h3>
           Hey! You gotta log in first.{" "}
           <span role="img" aria-label="Winking face emoji">
