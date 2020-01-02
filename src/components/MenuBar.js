@@ -17,19 +17,16 @@ export default withRouter(({ session, createSession, destroySession }) => {
         </Link>
         <NavLink
           activeClassName="active-nav"
-          to={{ pathname: "/user-recipes", state: { title: "Your Recipes" } }}
+          to={{ pathname: "/user-recipes" }}
         >
           {"Your Recipes"}
         </NavLink>
-        <NavLink
-          activeClassName="active-nav"
-          to={{ pathname: "/add-recipe", state: { title: "Add Recipe" } }}
-        >
+        <NavLink activeClassName="active-nav" to={{ pathname: "/add-recipe" }}>
           {"Add Recipe"}
         </NavLink>
         <NavLink
           activeClassName="active-nav"
-          to={{ pathname: "/user-profile", state: { title: "Profile" } }}
+          to={{ pathname: "/user-profile" }}
         >
           {"Profile"}
         </NavLink>
