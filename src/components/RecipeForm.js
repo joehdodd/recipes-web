@@ -1,6 +1,52 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
+const IterativeInput = ({
+  count,
+  name,
+  label,
+  values,
+  onChange,
+  onMinus,
+  onPlus
+}) => {
+  return (
+    <div className="form-itr-input-wrapper">
+      <div className="form-itr-input">
+        {Array(count)
+          .fill(null)
+          .map((_, i) => (
+            <div className="form-ing-inst-grid" key={`${name}_${i + 1}`}>
+              <span>{i + 1}.</span>
+              <input
+                required
+                type="text"
+                placeholder={`${label} ${i + 1}`}
+                name={`${name}_${i + 1}`}
+                value={values[`${name}_${i + 1}`]}
+                onChange={onChange}
+              />
+            </div>
+          ))}
+      </div>
+      <div className="form-itr-button-wrapper">
+        {count > 1 && (
+          <button className="form-minus-button" onClick={onMinus}>
+            -
+          </button>
+        )}
+        <button
+          className={`form-plus-button ${count === 1 &&
+            "form-plus-button-borders"}`}
+          onClick={onPlus}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default withRouter(({ handleSubmit, inputValues = {} }) => {
   React.useEffect(() => {
     Object.entries(inputValues).forEach(entry => {
@@ -15,11 +61,16 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
     (state, action) => {
       switch (action.type) {
         case "on-change":
+          console.log(action.name, action.value)
           return {
             ...state,
             inputValues: {
               ...state.inputValues,
-              [action.name]: action.value
+              [action.name]:
+                action.name.includes("ingredients") ||
+                action.name.includes("instructions")
+                  ? { ...action.name.split("_")[0], [action.name]: action.value }
+                  : action.value
             }
           };
         case "increment-ing-count":
@@ -35,6 +86,19 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
                 ? state.ingredientCount - 1
                 : state.ingredientCount
           };
+        case "increment-inst-count":
+          return {
+            ...state,
+            instructionCount: state.instructionCount + 1
+          };
+        case "decrement-inst-count":
+          return {
+            ...state,
+            instructionCount:
+              state.instructionCount > 1
+                ? state.instructionCount - 1
+                : state.instructionCount
+          };
         default:
           return state;
       }
@@ -42,14 +106,21 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
     {
       ingredientCount: 1,
       instructionCount: 1,
+      ingredientsArray: [],
+      instructionsArray: [],
       inputValues: {
         title: "",
         description: "",
-        ingredients: "",
-        instructions: ""
+        ingredients: {
+          ingredients_1: ""
+        },
+        instructions: {
+          instructions_1: ""
+        }
       }
     }
   );
+  // const handleSubmit = () => {};
   return (
     <div className="content-section">
       <form className="grid-form-row">
@@ -83,50 +154,53 @@ export default withRouter(({ handleSubmit, inputValues = {} }) => {
           }}
         />
         <label htmlFor="ingredients">Ingredients</label>
-        {Array(state.ingredientCount)
-          .fill(null)
-          .map((_, i) => (
-            <div className="form-ing-inst-grid">
-              <span>{i + 1}.</span>
-              <textarea
-                required
-                placeholder="Please list one ingredient per field"
-                name="ingredients"
-                value={state.inputValues.ingredients}
-                onChange={e => {
-                  console.log("input", e.target.name, e.target.value);
-                  dispatch({
-                    type: "on-change",
-                    name: e.target.name,
-                    value: e.target.value
-                  });
-                }}
-              />
-            </div>
-          ))}
-        <div>
-          <button
-            className="form-minus-button"
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              dispatch({ type: "decrement-ing-count" });
-            }}
-          >
-            -
-          </button>
-          <button
-            className="form-plus-button"
-            onClick={e => {
-              e.stopPropagation();
-              e.preventDefault();
-              dispatch({ type: "increment-ing-count" });
-            }}
-          >
-            +
-          </button>
-        </div>
+        <IterativeInput
+          count={state.ingredientCount}
+          name="ingredients"
+          label="Ingredients"
+          values={state.inputValues.ingredients}
+          onChange={e => {
+            dispatch({
+              type: "on-change",
+              name: e.target.name,
+              value: e.target.value
+            });
+          }}
+          onMinus={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            dispatch({ type: "decrement-ing-count" });
+          }}
+          onPlus={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            dispatch({ type: "increment-ing-count" });
+          }}
+        />
         <label htmlFor="instructions">Instructions</label>
+        <IterativeInput
+          count={state.instructionCount}
+          name="instructions"
+          label="Instruction"
+          values={state.inputValues.instructions}
+          onChange={e => {
+            dispatch({
+              type: "on-change-iterative",
+              name: e.target.name,
+              value: e.target.value
+            });
+          }}
+          onMinus={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            dispatch({ type: "decrement-inst-count" });
+          }}
+          onPlus={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            dispatch({ type: "increment-inst-count" });
+          }}
+        />
         <textarea
           required
           placeholder="Please list each step separated by a comma"
