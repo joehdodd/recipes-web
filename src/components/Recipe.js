@@ -1,12 +1,17 @@
 import React from "react";
 
-export default ({ selectedRecipe, handleEditRecipe, setSelectedRecipe }) => (
+export default ({
+  user,
+  selectedRecipe,
+  handleEditRecipe,
+  setSelectedRecipe
+}) => (
   <React.Fragment>
     {!!Object.keys(selectedRecipe).length && (
       <div className="content-section">
         <div className="content-section-top">
           <h1>{selectedRecipe.title}</h1>
-          <button onClick={() => handleEditRecipe()}>Edit</button>
+          {user && <button onClick={() => handleEditRecipe()}>Edit</button>}
         </div>
         <hr />
         <p>{selectedRecipe.description}</p>

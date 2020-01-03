@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 const IterativeInput = ({
+  type,
   count,
   name,
   label,
@@ -18,14 +19,13 @@ const IterativeInput = ({
           .map((_, i) => (
             <div className="form-ing-inst-grid" key={`${name}_${i + 1}`}>
               <span>{i + 1}.</span>
-              <input
-                required
-                type="text"
-                placeholder={`${label} ${i + 1}`}
-                name={`${name}_${i + 1}`}
-                value={values[`${name}_${i + 1}`]}
-                onChange={onChange}
-              />
+              {React.createElement(type, {
+                required: true,
+                type: "text",
+                placeholder: `${label} ${i + 1}`,
+                value: values[`${name}_${i + 1}`],
+                onChange
+              })}
             </div>
           ))}
       </div>
@@ -156,7 +156,14 @@ export default withRouter(({ handleSubmit, inputValues }) => {
   );
   return (
     <div className="content-section">
-      <form className="grid-form-row">
+      <form
+        className="grid-form-row"
+        onSubmit={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          return handleSubmit(state.inputValues);
+        }}
+      >
         <label htmlFor="title">Title</label>
         <input
           required
@@ -186,6 +193,7 @@ export default withRouter(({ handleSubmit, inputValues }) => {
         />
         <label htmlFor="ingredients">Ingredients</label>
         <IterativeInput
+          type="input"
           count={state.ingredientCount}
           name="ingredient"
           label="Ingredients"
@@ -211,6 +219,7 @@ export default withRouter(({ handleSubmit, inputValues }) => {
         />
         <label htmlFor="instructions">Instructions</label>
         <IterativeInput
+          type="textarea"
           count={state.instructionCount}
           name="instruction"
           label="Instructions"

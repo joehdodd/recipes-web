@@ -42,7 +42,10 @@ export default withRouter(({ user, location }) => {
   const [editingRecipe, setEditingRecipe] = React.useState(false);
   const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
-    const endpoint = !!user ? `/users/${user}/recipes` : "/recipes";
+    const endpoint =
+      !!user && location.pathname === "/user-recipes"
+        ? `/users/${user}/recipes`
+        : "/recipes";
     setFetching(true);
     apiContext
       .fetch(endpoint, {
@@ -98,12 +101,18 @@ export default withRouter(({ user, location }) => {
       </>
     ) : (
       <Recipe
+        user={
+          user && user.toString() === selectedRecipe.userId.toString()
+            ? true
+            : false
+        }
         handleEditRecipe={() => setEditingRecipe(true)}
         selectedRecipe={selectedRecipe}
         setSelectedRecipe={setSelectedRecipe}
       />
     );
   };
+  console.log("**** selectedrecipe", selectedRecipe, "*** user", user);
   return (
     <React.Fragment>
       {!fetching && (

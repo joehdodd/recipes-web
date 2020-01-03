@@ -49,7 +49,7 @@ export default () => {
             <main className="main-wrapper">
               <div className="main-container">
                 <Switch>
-                  <Route exact path="/" render={() => <RecipesContainer />} />
+                  <Route exact path="/" render={() => <RecipesContainer user={user} />} />
                   <Route exact path="/sign-up" component={SignUp} />
                   <ProtectedRoutes
                     destroySession={destroySession}
