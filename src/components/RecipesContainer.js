@@ -5,15 +5,24 @@ import { APIContext } from "./APIContext";
 import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
 
-const RecipeRow = ({ recipe, handleSelect }) => {
+const RecipeRow = ({ user, recipe, handleSelect }) => {
   return (
     <div className="recipe-row" onClick={handleSelect}>
       <h3>{recipe.title}</h3>
+      {user && user.favoriteRecipes.includes(recipe.id) && (
+        <span
+          role="img"
+          aria-label="favorite recipe"
+          style={{ fontSize: "32px", justifySelf: "end" }}
+        >
+          ⭐️
+        </span>
+      )}
     </div>
   );
 };
 
-const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm }) => {
+const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
   return recipes && recipes.length ? (
     <FilterResults
       data={recipes}
@@ -21,6 +30,7 @@ const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm }) => {
       renderResults={results =>
         results.map(recipe => (
           <RecipeRow
+            user={user}
             key={recipe.id}
             recipe={recipe}
             handleSelect={() =>
@@ -51,7 +61,7 @@ export default withRouter(({ user, location, searchTerm }) => {
   React.useEffect(() => {
     const endpoint =
       !!user && location.pathname === "/user-recipes"
-        ? `/users/${user}/recipes`
+        ? `/users/${user.id}/recipes`
         : "/recipes";
     setFetching(true);
     apiContext
@@ -130,6 +140,7 @@ export default withRouter(({ user, location, searchTerm }) => {
               text={
                 user ? "You don't have any recipes!" : "There are no recipes!"
               }
+              user={user}
               recipes={recipes}
               setSelectedRecipe={setSelectedRecipe}
               searchTerm={searchTerm}

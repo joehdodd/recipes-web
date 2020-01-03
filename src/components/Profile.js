@@ -12,18 +12,18 @@ const LogoutButton = ({ destroySession }) => {
   );
 };
 
-export default ({ userId, destroySession }) => {
+export default ({ currentUser, destroySession }) => {
   const [user, setUser] = React.useState({});
   const api = React.useContext(APIContext);
   React.useEffect(() => {
     api
-      .fetch(`/users/${userId}`, {
+      .fetch(`/users/${currentUser.id}`, {
         method: "GET"
       })
       .then(res => {
         setUser(res.data.user);
       });
-  }, [userId]);
+  }, [currentUser.id]);
   return (
     <section className="content-section">
       <div className="profile-wrapper">

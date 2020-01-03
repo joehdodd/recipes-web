@@ -3,11 +3,13 @@ import React from "react";
 // NOTE: custom hook below for setting value to state from local storage
 const useStateWithLocalStorage = localStorageKey => {
   const [value, setValue] = React.useState(
-    localStorage.getItem(localStorageKey) || ""
+    localStorage.getItem(localStorageKey)
+      ? JSON.parse(localStorage.getItem(localStorageKey))
+      : {}
   );
 
   React.useEffect(() => {
-    localStorage.setItem(localStorageKey, value);
+    localStorage.setItem(localStorageKey, JSON.stringify(value));
   }, [value]);
 
   return [value, setValue];
@@ -20,7 +22,7 @@ export default ({ children }) => {
   const [user, setUser] = useStateWithLocalStorage("user");
   const createSession = React.useCallback(user => {
     setSession(true);
-    setUser(user.id);
+    setUser(user);
   }, []);
   const destroySession = React.useCallback(() => {
     const cookieDomain =

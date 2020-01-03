@@ -18,7 +18,7 @@ const ProtectedRoutes = withRouter(
           exact
           path="/user-profile"
           render={() => (
-            <Profile destroySession={destroySession} userId={user} />
+            <Profile destroySession={destroySession} currentUser={user} />
           )}
         />
         <Route
@@ -63,13 +63,13 @@ export default () => {
                     exact
                     path="/"
                     render={() => (
-                      <>
+                      <div className="main-content">
                         <div className="content-section align-start">
                           <h3>Search Recipes</h3>
                           <input value={searchTerm} onChange={onChange} />
                         </div>
                         <RecipesContainer user={user} searchTerm={searchTerm} />
-                      </>
+                      </div>
                     )}
                   />
                   <Route exact path="/sign-up" component={SignUp} />

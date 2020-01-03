@@ -156,106 +156,104 @@ export default withRouter(({ handleSubmit, inputValues }) => {
     }
   );
   return (
-    <div className="content-section">
-      <form
-        className="grid-form-row"
-        onSubmit={e => {
+    <form
+      className="grid-form-row"
+      onSubmit={e => {
+        e.stopPropagation();
+        e.preventDefault();
+        return handleSubmit(state.inputValues);
+      }}
+    >
+      <label htmlFor="title">Title</label>
+      <input
+        required
+        type="text"
+        name="title"
+        value={state.inputValues.title}
+        onChange={e => {
+          dispatch({
+            type: "on-change",
+            name: e.target.name,
+            value: e.target.value
+          });
+        }}
+      />
+      <label htmlFor="description">Description</label>
+      <textarea
+        required
+        name="description"
+        value={state.inputValues.description}
+        onChange={e => {
+          dispatch({
+            type: "on-change",
+            name: e.target.name,
+            value: e.target.value
+          });
+        }}
+      />
+      <label htmlFor="ingredients">Ingredients</label>
+      <IterativeInput
+        type="input"
+        count={state.ingredientCount}
+        name="ingredient"
+        label="Ingredients"
+        values={state.inputValues.ingredients}
+        onChange={e => {
+          dispatch({
+            type: "on-change",
+            inputType: "ingredients",
+            name: e.target.name,
+            value: e.target.value
+          });
+        }}
+        onMinus={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          dispatch({ type: "decrement-ing-count" });
+        }}
+        onPlus={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          dispatch({ type: "increment-ing-count" });
+        }}
+      />
+      <label htmlFor="instructions">Instructions</label>
+      <IterativeInput
+        type="textarea"
+        count={state.instructionCount}
+        name="instruction"
+        label="Instructions"
+        values={state.inputValues.instructions}
+        onChange={e => {
+          dispatch({
+            type: "on-change",
+            inputType: "instructions",
+            name: e.target.name,
+            value: e.target.value
+          });
+        }}
+        onMinus={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          dispatch({ type: "decrement-inst-count" });
+        }}
+        onPlus={e => {
+          e.stopPropagation();
+          e.preventDefault();
+          dispatch({ type: "increment-inst-count" });
+        }}
+      />
+      <button
+        onClick={e => {
           e.stopPropagation();
           e.preventDefault();
           return handleSubmit(state.inputValues);
         }}
+        className="button-quarter"
+        type="submit"
       >
-        <label htmlFor="title">Title</label>
-        <input
-          required
-          type="text"
-          name="title"
-          value={state.inputValues.title}
-          onChange={e => {
-            dispatch({
-              type: "on-change",
-              name: e.target.name,
-              value: e.target.value
-            });
-          }}
-        />
-        <label htmlFor="description">Description</label>
-        <textarea
-          required
-          name="description"
-          value={state.inputValues.description}
-          onChange={e => {
-            dispatch({
-              type: "on-change",
-              name: e.target.name,
-              value: e.target.value
-            });
-          }}
-        />
-        <label htmlFor="ingredients">Ingredients</label>
-        <IterativeInput
-          type="input"
-          count={state.ingredientCount}
-          name="ingredient"
-          label="Ingredients"
-          values={state.inputValues.ingredients}
-          onChange={e => {
-            dispatch({
-              type: "on-change",
-              inputType: "ingredients",
-              name: e.target.name,
-              value: e.target.value
-            });
-          }}
-          onMinus={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            dispatch({ type: "decrement-ing-count" });
-          }}
-          onPlus={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            dispatch({ type: "increment-ing-count" });
-          }}
-        />
-        <label htmlFor="instructions">Instructions</label>
-        <IterativeInput
-          type="textarea"
-          count={state.instructionCount}
-          name="instruction"
-          label="Instructions"
-          values={state.inputValues.instructions}
-          onChange={e => {
-            dispatch({
-              type: "on-change",
-              inputType: "instructions",
-              name: e.target.name,
-              value: e.target.value
-            });
-          }}
-          onMinus={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            dispatch({ type: "decrement-inst-count" });
-          }}
-          onPlus={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            dispatch({ type: "increment-inst-count" });
-          }}
-        />
-        <button
-          onClick={e => {
-            e.stopPropagation();
-            e.preventDefault();
-            return handleSubmit(state.inputValues);
-          }}
-          className="button-quarter"
-          type="submit"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+        Submit
+      </button>
+    </form>
   );
 });

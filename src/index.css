@@ -207,7 +207,6 @@ textarea {
 
 .main-container {
   display: grid;
-  grid-template-columns: 0.25fr 1fr;
   grid-gap: 8px;
   width: 100%;
   border-radius: 2px;
@@ -216,6 +215,10 @@ textarea {
 .main-container > button {
   width: 120px;
   align-self: flex-end;
+}
+
+.main-content {
+  grid-template-columns: .25fr 1fr;
 }
 
 .recipes-container {
@@ -231,6 +234,9 @@ textarea {
   padding: 8px;
   background: #fafafa;
   border-bottom: 1px solid #ecf0f1;
+  display: grid;
+  grid-template-columns: 4fr .5fr;
+  align-items: center;
 }
 
 .recipe-row h3 {
