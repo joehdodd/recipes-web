@@ -24,7 +24,8 @@ const IterativeInput = ({
                 type: "text",
                 placeholder: `${label} ${i + 1}`,
                 value: values[`${name}_${i + 1}`],
-                onChange
+                onChange,
+                name: `${name}_${i + 1}`
               })}
             </div>
           ))}

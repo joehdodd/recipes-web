@@ -26,7 +26,6 @@ export default ({ userId, destroySession }) => {
   }, [userId]);
   return (
     <section className="content-section">
-      <h2>Profile</h2>
       <div className="profile-wrapper">
         {!!user && (
           <span>

@@ -10,7 +10,7 @@ import Profile from "./Profile";
 import "./App.css";
 
 const ProtectedRoutes = withRouter(
-  ({ location, session, destroySession, user }) =>
+  ({ location, session, destroySession, user, searchTerm, onChange }) =>
     session ? (
       <>
         <Route exact path="/add-recipe" render={() => <AddRecipeContainer />} />
@@ -24,7 +24,13 @@ const ProtectedRoutes = withRouter(
         <Route
           exact
           path="/user-recipes"
-          render={() => <RecipesContainer user={user} />}
+          render={() => (
+            <RecipesContainer
+              user={user}
+              searchTerm={searchTerm}
+              onChange={onChange}
+            />
+          )}
         />
       </>
     ) : (
@@ -40,6 +46,10 @@ const ProtectedRoutes = withRouter(
 );
 
 export default () => {
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const onChange = e => {
+    setSearchTerm(e.target.value);
+  };
   return (
     <APIProvider>
       <Authentication>
@@ -49,12 +59,26 @@ export default () => {
             <main className="main-wrapper">
               <div className="main-container">
                 <Switch>
-                  <Route exact path="/" render={() => <RecipesContainer user={user} />} />
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <>
+                        <div className="content-section align-start">
+                          <h3>Search Recipes</h3>
+                          <input value={searchTerm} onChange={onChange} />
+                        </div>
+                        <RecipesContainer user={user} searchTerm={searchTerm} />
+                      </>
+                    )}
+                  />
                   <Route exact path="/sign-up" component={SignUp} />
                   <ProtectedRoutes
                     destroySession={destroySession}
                     session={session}
                     user={user}
+                    searchTerm={searchTerm}
+                    onChange={onChange}
                   />
                 </Switch>
               </div>

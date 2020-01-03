@@ -26,6 +26,13 @@ code {
     monospace;
 }
 
+p,
+span,
+ol,
+ul {
+  color: #2f3c43;
+}
+
 input[type="text"],
 input[type="password"] {
   height: 35px;
@@ -36,6 +43,7 @@ button,
 input,
 textarea {
   background-color: #ecf0f1;
+  color: #2f3c43;
   border: none;
   outline: none;
   border-radius: 4px;
@@ -71,7 +79,7 @@ a:hover {
 
 .active-nav {
   background-color: #f4f4f9;
-  font-weight: bold;
+  color: #203037;
 }
 
 .button-full {
@@ -97,7 +105,7 @@ a:hover {
 }
 
 .form-itr-input {
-  display: grid; 
+  display: grid;
   grid-auto-flow: row;
   grid-gap: 8px;
 }
@@ -109,7 +117,7 @@ a:hover {
 
 .form-ing-inst-grid {
   display: grid;
-  grid-template-columns: .075fr 1fr;
+  grid-template-columns: 0.075fr 1fr;
   grid-gap: 2px;
   align-items: center;
 }
@@ -199,15 +207,19 @@ textarea {
 
 .main-container {
   display: grid;
+  grid-template-columns: 0.25fr 1fr;
+  grid-gap: 8px;
   width: 100%;
-  background-color: #fafafa;
   border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .main-container > button {
   width: 120px;
   align-self: flex-end;
+}
+
+.recipes-container {
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .recipe-rows-container {
@@ -217,6 +229,7 @@ textarea {
 
 .recipe-row {
   padding: 8px;
+  background: #fafafa;
   border-bottom: 1px solid #ecf0f1;
 }
 
@@ -239,7 +252,9 @@ textarea {
 }
 
 .content-section {
+  background-color: #fafafa;
   padding: 8px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .content-section h1 {
@@ -273,10 +288,20 @@ textarea {
   margin-top: 2px;
 }
 
+.align-start {
+  align-self: flex-start;
+}
+
 .grid-form-row {
   display: grid;
   grid-auto-flow: row;
   grid-gap: 8px;
+}
+
+.grid-form-row label {
+  font-style: italic;
+  font-size: 18px;
+  color: #586f7c;
 }
 
 .profile-wrapper {
@@ -322,6 +347,6 @@ textarea {
 
 @media screen and (min-width: 1024px) {
   .main-wrapper {
-    width: 50%;
+    width: 65%;
   }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import FilterResults from "react-filter-search";
 import { APIContext } from "./APIContext";
 import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
@@ -12,17 +13,23 @@ const RecipeRow = ({ recipe, handleSelect }) => {
   );
 };
 
-const Recipes = ({ text, recipes, setSelectedRecipe }) => {
+const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm }) => {
   return recipes && recipes.length ? (
-    recipes.map(recipe => (
-      <RecipeRow
-        key={recipe.id}
-        recipe={recipe}
-        handleSelect={() =>
-          setSelectedRecipe(recipes.find(r => r.id === recipe.id))
-        }
-      />
-    ))
+    <FilterResults
+      data={recipes}
+      value={searchTerm}
+      renderResults={results =>
+        results.map(recipe => (
+          <RecipeRow
+            key={recipe.id}
+            recipe={recipe}
+            handleSelect={() =>
+              setSelectedRecipe(recipes.find(r => r.id === recipe.id))
+            }
+          />
+        ))
+      }
+    />
   ) : (
     <div className="recipe-row">
       <h3>
@@ -35,7 +42,7 @@ const Recipes = ({ text, recipes, setSelectedRecipe }) => {
   );
 };
 
-export default withRouter(({ user, location }) => {
+export default withRouter(({ user, location, searchTerm }) => {
   const apiContext = React.useContext(APIContext);
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
@@ -112,9 +119,8 @@ export default withRouter(({ user, location }) => {
       />
     );
   };
-  console.log("**** selectedrecipe", selectedRecipe, "*** user", user);
   return (
-    <React.Fragment>
+    <div className="recipes-container">
       {!fetching && (
         <>
           {!!Object.keys(selectedRecipe).length ? (
@@ -126,6 +132,7 @@ export default withRouter(({ user, location }) => {
               }
               recipes={recipes}
               setSelectedRecipe={setSelectedRecipe}
+              searchTerm={searchTerm}
             />
           )}
         </>
@@ -140,6 +147,6 @@ export default withRouter(({ user, location }) => {
           </h3>
         </div>
       )}
-    </React.Fragment>
+    </div>
   );
 });
