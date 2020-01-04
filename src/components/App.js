@@ -5,12 +5,21 @@ import Authentication from "./Authentication";
 import MenuBar from "./MenuBar";
 import AddRecipeContainer from "./AddRecipeContainer";
 import SignUp from "./SignUp";
+import Login from "./Login";
 import RecipesContainer from "./RecipesContainer";
 import Profile from "./Profile";
 import "./App.css";
 
 const ProtectedRoutes = withRouter(
-  ({ location, session, destroySession, user, searchTerm, onChange, setUser }) =>
+  ({
+    location,
+    session,
+    destroySession,
+    user,
+    searchTerm,
+    onChange,
+    setUser
+  }) =>
     session ? (
       <>
         <Route exact path="/add-recipe" render={() => <AddRecipeContainer />} />
@@ -62,7 +71,7 @@ export default () => {
                 <Switch>
                   <Route
                     exact
-                    path="/"
+                    path="/home"
                     render={() => (
                       <div className="main-content">
                         <div className="content-section align-start">
@@ -74,6 +83,15 @@ export default () => {
                     )}
                   />
                   <Route exact path="/sign-up" component={SignUp} />
+                  <Route
+                    exact
+                    path="/login"
+                    render={() => (
+                      <div className="content-section">
+                        <Login createSession={createSession} />
+                      </div>
+                    )}
+                  />
                   <ProtectedRoutes
                     destroySession={destroySession}
                     session={session}

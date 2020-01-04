@@ -1,9 +1,10 @@
 import React from "react";
 import { APIContext } from "./APIContext";
 // import { AuthContext } from "./AuthenticationContext";
+import { withRouter } from "react-router-dom";
 import "./App.css";
 
-export default ({ createSession }) => {
+export default withRouter(({ history, createSession }) => {
   const apiContext = React.useContext(APIContext);
   // const { createSession } = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(
@@ -50,7 +51,8 @@ export default ({ createSession }) => {
       })
       .then(res => {
         console.log("login success", res);
-        return createSession(res.data.user);
+        createSession(res.data.user);
+        history.push("/home");
       })
       .catch(err => {
         console.log("session err", err.response);
@@ -92,4 +94,4 @@ export default ({ createSession }) => {
       <button type="submit">Login</button>
     </form>
   );
-};
+});
