@@ -5,12 +5,21 @@ import Authentication from "./Authentication";
 import MenuBar from "./MenuBar";
 import AddRecipeContainer from "./AddRecipeContainer";
 import SignUp from "./SignUp";
+import Login from "./Login";
 import RecipesContainer from "./RecipesContainer";
 import Profile from "./Profile";
 import "./App.css";
 
 const ProtectedRoutes = withRouter(
-  ({ location, session, destroySession, user }) =>
+  ({
+    location,
+    session,
+    destroySession,
+    user,
+    searchTerm,
+    onChange,
+    setUser
+  }) =>
     session ? (
       <>
         <Route exact path="/add-recipe" render={() => <AddRecipeContainer />} />
@@ -18,13 +27,20 @@ const ProtectedRoutes = withRouter(
           exact
           path="/user-profile"
           render={() => (
-            <Profile destroySession={destroySession} userId={user} />
+            <Profile destroySession={destroySession} currentUser={user} />
           )}
         />
         <Route
           exact
           path="/user-recipes"
-          render={() => <RecipesContainer user={user} />}
+          render={() => (
+            <RecipesContainer
+              user={user}
+              setUser={setUser}
+              searchTerm={searchTerm}
+              onChange={onChange}
+            />
+          )}
         />
       </>
     ) : (
@@ -40,21 +56,49 @@ const ProtectedRoutes = withRouter(
 );
 
 export default () => {
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const onChange = e => {
+    setSearchTerm(e.target.value);
+  };
   return (
     <APIProvider>
       <Authentication>
-        {({ session, createSession, destroySession, user }) => (
+        {({ session, createSession, destroySession, user, setUser }) => (
           <>
             <MenuBar session={session} createSession={createSession} />
             <main className="main-wrapper">
               <div className="main-container">
                 <Switch>
-                  <Route exact path="/" render={() => <RecipesContainer />} />
+                  <Route
+                    exact
+                    path="/home"
+                    render={() => (
+                      <div className="main-content">
+                        <div className="content-section align-start">
+                          <h3>Search Recipes</h3>
+                          <input value={searchTerm} onChange={onChange} />
+                        </div>
+                        <RecipesContainer user={user} searchTerm={searchTerm} />
+                      </div>
+                    )}
+                  />
                   <Route exact path="/sign-up" component={SignUp} />
+                  <Route
+                    exact
+                    path="/login"
+                    render={() => (
+                      <div className="content-section">
+                        <Login createSession={createSession} />
+                      </div>
+                    )}
+                  />
                   <ProtectedRoutes
                     destroySession={destroySession}
                     session={session}
                     user={user}
+                    setUser={setUser}
+                    searchTerm={searchTerm}
+                    onChange={onChange}
                   />
                 </Switch>
               </div>

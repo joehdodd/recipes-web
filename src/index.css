@@ -26,6 +26,13 @@ code {
     monospace;
 }
 
+p,
+span,
+ol,
+ul {
+  color: #2f3c43;
+}
+
 input[type="text"],
 input[type="password"] {
   height: 35px;
@@ -36,6 +43,7 @@ button,
 input,
 textarea {
   background-color: #ecf0f1;
+  color: #2f3c43;
   border: none;
   outline: none;
   border-radius: 4px;
@@ -43,7 +51,9 @@ textarea {
 }
 
 button {
-  padding: 8px;
+  padding: 2px 12px;
+  height: 35px;
+  text-align: center;
   color: #ecf0f1;
   background-color: #586f7c;
 }
@@ -68,8 +78,9 @@ a:hover {
 }
 
 .active-nav {
-  background-color: #f4f4f9;
-  font-weight: bold;
+  color: #f4f4f9;
+  background-color: #4b7181;
+  border-radius: 0px;
 }
 
 .button-full {
@@ -90,12 +101,12 @@ a:hover {
 
 .form-itr-input-wrapper {
   display: grid;
-  grid-template-columns: 1.5fr 0.25fr;
+  grid-template-columns: 1.75fr 0.5fr;
   grid-gap: 4px;
 }
 
 .form-itr-input {
-  display: grid; 
+  display: grid;
   grid-auto-flow: row;
   grid-gap: 8px;
 }
@@ -107,7 +118,7 @@ a:hover {
 
 .form-ing-inst-grid {
   display: grid;
-  grid-template-columns: .075fr 1fr;
+  grid-template-columns: 0.075fr 1fr;
   grid-gap: 2px;
   align-items: center;
 }
@@ -115,6 +126,10 @@ a:hover {
 .form-ing-inst-grid span {
   font-size: 18px;
   color: #586f7c;
+}
+
+.form-ing-inst-grid textarea {
+  height: 75px;
 }
 
 .form-minus-button {
@@ -138,15 +153,28 @@ a:hover {
 
 textarea {
   width: 100%;
+  height: 115px;
   resize: none;
 }
 
 .menu-bar-wrapper {
   display: grid;
-  grid-auto-flow: row;
+  grid-template-rows: repeat(6, 1fr);
   align-items: center;
-  justify-content: center;
-  padding: 8px;
+  position: absolute;
+  top: -200px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
+  z-index: 900;
+  background: #fafafa;
+  transition: top 225ms ease-in-out;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+.menu-bar-wrapper-open {
+  top: 0;
 }
 
 .menu-bar-header {
@@ -174,33 +202,40 @@ textarea {
   grid-auto-flow: row;
 }
 
-.nav {
-  grid-auto-flow: column;
-}
 .user-menu {
   display: grid;
-  grid-auto-flow: row;
+  grid-auto-flow: column;
   grid-gap: 4px;
   align-items: center;
   justify-content: center;
+  height: 38px;
 }
+
 /** MAIN **/
 
 .main-wrapper {
+  margin-top: 65px;
   padding: 8px;
 }
 
 .main-container {
   display: grid;
+  grid-gap: 8px;
   width: 100%;
-  background-color: #fafafa;
   border-radius: 2px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .main-container > button {
   width: 120px;
   align-self: flex-end;
+}
+
+.main-content {
+  grid-template-columns: 0.25fr 1fr;
+}
+
+.recipes-container {
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .recipe-rows-container {
@@ -210,7 +245,11 @@ textarea {
 
 .recipe-row {
   padding: 8px;
+  background: #fafafa;
   border-bottom: 1px solid #ecf0f1;
+  display: grid;
+  grid-template-columns: 4fr 0.5fr;
+  align-items: center;
 }
 
 .recipe-row h3 {
@@ -232,7 +271,9 @@ textarea {
 }
 
 .content-section {
+  background-color: #fafafa;
   padding: 8px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .content-section h1 {
@@ -244,10 +285,14 @@ textarea {
 .content-section-top {
   display: grid;
   grid-auto-flow: column;
+  align-items: center;
 }
 
-.content-section-top button {
+.content-section-top-buttons {
   justify-self: end;
+  display: grid;
+  grid-gap: 4px;
+  grid-auto-flow: column;
 }
 
 .content-section hr {
@@ -257,7 +302,7 @@ textarea {
 }
 
 .content-section h3 {
-  margin-bottom: 0px;
+  margin: 0px;
   color: #586f7c;
 }
 
@@ -266,10 +311,20 @@ textarea {
   margin-top: 2px;
 }
 
+.align-start {
+  align-self: flex-start;
+}
+
 .grid-form-row {
   display: grid;
   grid-auto-flow: row;
   grid-gap: 8px;
+}
+
+.grid-form-row label {
+  font-style: italic;
+  font-size: 18px;
+  color: #586f7c;
 }
 
 .profile-wrapper {
@@ -279,22 +334,24 @@ textarea {
 }
 
 @media screen and (min-width: 768px) {
+  .nav {
+    grid-auto-flow: column;
+  }
+
   .login-container {
     min-height: 300px;
     width: 600px;
   }
-
+  
   .menu-bar-wrapper {
     position: fixed;
     top: 0;
-    right: 0;
-    left: 0;
     display: grid;
+    height: 50px;
     grid-template-columns: 0.5fr 1fr;
     align-items: center;
     background-color: #fafafa;
-    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
-    padding: 8px 64px;
+    padding: 8px 16px;
   }
 
   .main-wrapper {
@@ -302,8 +359,12 @@ textarea {
     width: 75%;
   }
 
+  .content-section {
+    padding: 16px;
+  }
+
   .grid-form-row {
-    width: 50%;
+    width: 75%;
   }
 
   .user-menu,
@@ -313,8 +374,31 @@ textarea {
   }
 }
 
+@media screen and (min-width: 885px) {
+  .menu-bar-wrapper {
+    position: fixed;
+    top: 0;
+    display: grid;
+    height: 50px;
+    grid-template-columns: 0.5fr 1fr;
+    align-items: center;
+    background-color: #fafafa;
+    padding: 8px 16px;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .main-wrapper {
-    width: 50%;
+    width: 65%;
+  }
+
+  .menu-bar-wrapper {
+    padding: 8px 64px;
+  }
+}
+
+@media screen and (min-width: 1162px) {
+  .menu-bar-wrapper {
+    height: 38px;
   }
 }

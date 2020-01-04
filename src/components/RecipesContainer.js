@@ -1,28 +1,46 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import FilterResults from "react-filter-search";
 import { APIContext } from "./APIContext";
 import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
 
-const RecipeRow = ({ recipe, handleSelect }) => {
+const RecipeRow = ({ user, recipe, handleSelect }) => {
   return (
     <div className="recipe-row" onClick={handleSelect}>
       <h3>{recipe.title}</h3>
+      {user && user.favoriteRecipes.includes(recipe.id) && (
+        <span
+          role="img"
+          aria-label="favorite recipe"
+          style={{ fontSize: "32px", justifySelf: "end" }}
+        >
+          ⭐️
+        </span>
+      )}
     </div>
   );
 };
 
-const Recipes = ({ text, recipes, setSelectedRecipe }) => {
+const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
+  console.log("**** user", user);
   return recipes && recipes.length ? (
-    recipes.map(recipe => (
-      <RecipeRow
-        key={recipe.id}
-        recipe={recipe}
-        handleSelect={() =>
-          setSelectedRecipe(recipes.find(r => r.id === recipe.id))
-        }
-      />
-    ))
+    <FilterResults
+      data={recipes}
+      value={searchTerm}
+      renderResults={results =>
+        results.map(recipe => (
+          <RecipeRow
+            user={user}
+            key={recipe.id}
+            recipe={recipe}
+            handleSelect={() =>
+              setSelectedRecipe(recipes.find(r => r.id === recipe.id))
+            }
+          />
+        ))
+      }
+    />
   ) : (
     <div className="recipe-row">
       <h3>
@@ -35,14 +53,17 @@ const Recipes = ({ text, recipes, setSelectedRecipe }) => {
   );
 };
 
-export default withRouter(({ user, location }) => {
+export default withRouter(({ user, location, searchTerm, setUser }) => {
   const apiContext = React.useContext(APIContext);
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
   const [editingRecipe, setEditingRecipe] = React.useState(false);
   const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
-    const endpoint = !!user ? `/users/${user}/recipes` : "/recipes";
+    const endpoint =
+      !!user && location.pathname === "/user-recipes"
+        ? `/users/${user.id}/recipes`
+        : "/recipes";
     setFetching(true);
     apiContext
       .fetch(endpoint, {
@@ -82,9 +103,26 @@ export default withRouter(({ user, location }) => {
       })
       .catch(err => err);
   };
+  const handleFavoriteRecipe = () => {
+    let recipeId = selectedRecipe.id;
+    let userId = user.id;
+    apiContext
+      .fetch(`/users`, {
+        method: "PUT",
+        data: {
+          userId,
+          recipeId
+        }
+      })
+      .then(res => {
+        console.log(res);
+        setUser(res.data.data);
+      })
+      .catch(err => err);
+  };
   const handleRenderRecipe = () => {
     return editingRecipe ? (
-      <>
+      <div className="content-section">
         <RecipeForm
           inputValues={selectedRecipe}
           handleSubmit={inputValues => handleUpdateRecipe(inputValues)}
@@ -95,17 +133,24 @@ export default withRouter(({ user, location }) => {
         >
           Cancel
         </button>
-      </>
+      </div>
     ) : (
       <Recipe
+        userRecipe={
+          user && user.id.toString() === selectedRecipe.userId.toString()
+            ? true
+            : false
+        }
+        user={user}
         handleEditRecipe={() => setEditingRecipe(true)}
         selectedRecipe={selectedRecipe}
         setSelectedRecipe={setSelectedRecipe}
+        handleFavoriteRecipe={handleFavoriteRecipe}
       />
     );
   };
   return (
-    <React.Fragment>
+    <div className="recipes-container">
       {!fetching && (
         <>
           {!!Object.keys(selectedRecipe).length ? (
@@ -115,8 +160,10 @@ export default withRouter(({ user, location }) => {
               text={
                 user ? "You don't have any recipes!" : "There are no recipes!"
               }
+              user={user}
               recipes={recipes}
               setSelectedRecipe={setSelectedRecipe}
+              searchTerm={searchTerm}
             />
           )}
         </>
@@ -131,6 +178,6 @@ export default withRouter(({ user, location }) => {
           </h3>
         </div>
       )}
-    </React.Fragment>
+    </div>
   );
 });

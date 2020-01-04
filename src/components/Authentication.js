@@ -2,12 +2,16 @@ import React from "react";
 
 // NOTE: custom hook below for setting value to state from local storage
 const useStateWithLocalStorage = localStorageKey => {
+
   const [value, setValue] = React.useState(
-    localStorage.getItem(localStorageKey) || ""
+    localStorage.getItem(localStorageKey)
+      ? JSON.parse(localStorage.getItem(localStorageKey))
+      : {}
   );
 
   React.useEffect(() => {
-    localStorage.setItem(localStorageKey, value);
+    console.log('value change', value)
+    localStorage.setItem(localStorageKey, JSON.stringify(value));
   }, [value]);
 
   return [value, setValue];
@@ -20,7 +24,7 @@ export default ({ children }) => {
   const [user, setUser] = useStateWithLocalStorage("user");
   const createSession = React.useCallback(user => {
     setSession(true);
-    setUser(user.id);
+    setUser(user);
   }, []);
   const destroySession = React.useCallback(() => {
     const cookieDomain =
@@ -34,5 +38,5 @@ export default ({ children }) => {
   // NOTE: why not use children({session, destroySession, createSession}) here?
   // do we need context?
   // maybe, since we would then need to drill destroySession down pretty far...
-  return children({ session, createSession, destroySession, user });
+  return children({ session, createSession, destroySession, user, setUser });
 };
