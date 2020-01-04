@@ -10,7 +10,7 @@ import Profile from "./Profile";
 import "./App.css";
 
 const ProtectedRoutes = withRouter(
-  ({ location, session, destroySession, user, searchTerm, onChange }) =>
+  ({ location, session, destroySession, user, searchTerm, onChange, setUser }) =>
     session ? (
       <>
         <Route exact path="/add-recipe" render={() => <AddRecipeContainer />} />
@@ -27,6 +27,7 @@ const ProtectedRoutes = withRouter(
           render={() => (
             <RecipesContainer
               user={user}
+              setUser={setUser}
               searchTerm={searchTerm}
               onChange={onChange}
             />
@@ -53,7 +54,7 @@ export default () => {
   return (
     <APIProvider>
       <Authentication>
-        {({ session, createSession, destroySession, user }) => (
+        {({ session, createSession, destroySession, user, setUser }) => (
           <>
             <MenuBar session={session} createSession={createSession} />
             <main className="main-wrapper">
@@ -77,6 +78,7 @@ export default () => {
                     destroySession={destroySession}
                     session={session}
                     user={user}
+                    setUser={setUser}
                     searchTerm={searchTerm}
                     onChange={onChange}
                   />

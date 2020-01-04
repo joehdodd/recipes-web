@@ -23,6 +23,7 @@ const RecipeRow = ({ user, recipe, handleSelect }) => {
 };
 
 const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
+  console.log("**** user", user);
   return recipes && recipes.length ? (
     <FilterResults
       data={recipes}
@@ -52,7 +53,7 @@ const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
   );
 };
 
-export default withRouter(({ user, location, searchTerm }) => {
+export default withRouter(({ user, location, searchTerm, setUser }) => {
   const apiContext = React.useContext(APIContext);
   const [recipes, setRecipes] = React.useState([]);
   const [selectedRecipe, setSelectedRecipe] = React.useState({});
@@ -102,9 +103,26 @@ export default withRouter(({ user, location, searchTerm }) => {
       })
       .catch(err => err);
   };
+  const handleFavoriteRecipe = () => {
+    let recipeId = selectedRecipe.id;
+    let userId = user.id;
+    apiContext
+      .fetch(`/users`, {
+        method: "PUT",
+        data: {
+          userId,
+          recipeId
+        }
+      })
+      .then(res => {
+        console.log(res);
+        setUser(res.data.data);
+      })
+      .catch(err => err);
+  };
   const handleRenderRecipe = () => {
     return editingRecipe ? (
-      <>
+      <div className="content-section">
         <RecipeForm
           inputValues={selectedRecipe}
           handleSubmit={inputValues => handleUpdateRecipe(inputValues)}
@@ -115,17 +133,19 @@ export default withRouter(({ user, location, searchTerm }) => {
         >
           Cancel
         </button>
-      </>
+      </div>
     ) : (
       <Recipe
-        user={
-          user && user.toString() === selectedRecipe.userId.toString()
+        userRecipe={
+          user && user.id.toString() === selectedRecipe.userId.toString()
             ? true
             : false
         }
+        user={user}
         handleEditRecipe={() => setEditingRecipe(true)}
         selectedRecipe={selectedRecipe}
         setSelectedRecipe={setSelectedRecipe}
+        handleFavoriteRecipe={handleFavoriteRecipe}
       />
     );
   };

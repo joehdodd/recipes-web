@@ -272,10 +272,14 @@ textarea {
 .content-section-top {
   display: grid;
   grid-auto-flow: column;
+  align-items: center;
 }
 
-.content-section-top button {
+.content-section-top-buttons {
   justify-self: end;
+  display: grid;
+  grid-gap: 4px;
+  grid-auto-flow: column;
 }
 
 .content-section hr {
