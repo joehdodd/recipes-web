@@ -55,7 +55,7 @@ export default withRouter(
         <div className="user-menu">
           {!session && (
             <>
-              {width < 768 ? (
+              {width < 885 ? (
                 <Link to="/login">Login</Link>
               ) : (
                 location.pathname !== "/login" && (
