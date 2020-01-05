@@ -48,7 +48,7 @@ export default () => {
   });
   return (
     <section className="content-section">
-      <h2>Le Sign Up Page</h2>
+      <h2>Sign Up</h2>
       <form className="grid-form-row" onSubmit={handleSignUp}>
         <label for="username">Username</label>
         <input
@@ -78,7 +78,7 @@ export default () => {
             })
           }
         />
-        <button className="button-eighth" type="submit">
+        <button className="button-half" type="submit">
           Submit
         </button>
       </form>
