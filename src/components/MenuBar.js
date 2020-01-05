@@ -6,11 +6,11 @@ export default withRouter(
   ({ location, session, createSession, destroySession }) => {
     const [prevLocation, setLocation] = React.useState(location.pathname);
     const [width, setWidth] = React.useState(window.innerWidth);
-    const [height, setHeight] = React.useState(window.innerHeight);
+    // const [height, setHeight] = React.useState(window.innerHeight);
     const [isMenuBarOpen, setMenuBar] = React.useState(false);
     const updateWidthAndHeight = () => {
       setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
+      // setHeight(window.innerHeight);
     };
     React.useEffect(() => {
       window.addEventListener("resize", updateWidthAndHeight);

@@ -162,7 +162,7 @@ textarea {
   grid-template-rows: repeat(6, 1fr);
   align-items: center;
   position: absolute;
-  top: -200px;
+  top: -204px;
   bottom: 0;
   left: 0;
   right: 0;
