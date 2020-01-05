@@ -23,7 +23,7 @@ export default withRouter(({ location, history }) => {
         }
       })
       .then(res => {
-        history.push({ pathname: "/", state: { ...res.data.data } });
+        history.push({ pathname: "/home", state: { ...res.data.data } });
       });
   };
   return (

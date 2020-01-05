@@ -74,9 +74,19 @@ export default () => {
                     path="/home"
                     render={() => (
                       <div className="main-content">
-                        <div className="content-section align-start">
-                          <h3>Search Recipes</h3>
+                        <div
+                          className="content-section align-start"
+                          style={{
+                            display: "grid",
+                            gridAutoFlow: "column",
+                            gridGap: "8px",
+                            justifyContent: "start"
+                          }}
+                        >
                           <input value={searchTerm} onChange={onChange} />
+                          <span role="img" aria-label="search recipes">
+                            &#128269;
+                          </span>
                         </div>
                         <RecipesContainer user={user} searchTerm={searchTerm} />
                       </div>
