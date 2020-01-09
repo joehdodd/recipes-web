@@ -9,7 +9,7 @@ const RecipeRow = ({ user, recipe, handleSelect }) => {
   return (
     <div className="recipe-row" onClick={handleSelect}>
       <h3>{recipe.title}</h3>
-      {user && user.favoriteRecipes.includes(recipe.id) && (
+      {user && user.favoriteRecipes && user.favoriteRecipes.includes(recipe.id) && (
         <span
           role="img"
           aria-label="favorite recipe"
@@ -23,7 +23,6 @@ const RecipeRow = ({ user, recipe, handleSelect }) => {
 };
 
 const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
-  console.log("**** user", user);
   return recipes && recipes.length ? (
     <FilterResults
       data={recipes}
@@ -83,25 +82,27 @@ export default withRouter(({ user, location, searchTerm, setUser }) => {
   const handleUpdateRecipe = inputValues => {
     const instructionsArray = Object.entries(
       inputValues.instructions
-    ).map(([key, value]) => ({ [key]: value }));
+    ).map(([key, value]) => (value ));
     const ingredientsArray = Object.entries(
       inputValues.ingredients
-    ).map(([key, value]) => ({ [key]: value }));
-    apiContext
-      .fetch(`/recipes/${selectedRecipe.id}`, {
-        method: "PUT",
-        data: {
-          title: inputValues.title,
-          description: inputValues.description,
-          instructionsArray,
-          ingredientsArray
-        }
-      })
-      .then(res => {
-        setSelectedRecipe({ ...res.data.data });
-        setEditingRecipe(false);
-      })
-      .catch(err => err);
+    ).map(([key, value]) => (value));
+    console.log('***instArr', instructionsArray);
+    console.log('***ingArr', ingredientsArray);
+    // apiContext
+    //   .fetch(`/recipes/${selectedRecipe.id}`, {
+    //     method: "PUT",
+    //     data: {
+    //       title: inputValues.title,
+    //       description: inputValues.description,
+    //       instructionsArray,
+    //       ingredientsArray
+    //     }
+    //   })
+    //   .then(res => {
+    //     setSelectedRecipe({ ...res.data.data });
+    //     setEditingRecipe(false);
+    //   })
+    //   .catch(err => err);
   };
   const handleFavoriteRecipe = () => {
     let recipeId = selectedRecipe.id;
@@ -150,7 +151,7 @@ export default withRouter(({ user, location, searchTerm, setUser }) => {
     );
   };
   return (
-    <div className="recipes-container">
+    <>
       {!fetching && (
         <>
           {!!Object.keys(selectedRecipe).length ? (
@@ -178,6 +179,6 @@ export default withRouter(({ user, location, searchTerm, setUser }) => {
           </h3>
         </div>
       )}
-    </div>
+    </>
   );
 });

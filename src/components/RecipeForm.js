@@ -63,12 +63,12 @@ export default withRouter(({ handleSubmit, inputValues }) => {
       });
       Object.entries(inputValues).forEach(([key, value]) => {
         return key === "ingredients" || key === "instructions"
-          ? value.map(obj =>
+          ? value.map((val, i) =>
               dispatch({
                 type: "on-change",
                 inputType: key,
-                name: Object.keys(obj)[0],
-                value: Object.values(obj)[0]
+                name: `${key.substring(0, key.length - 1)}_${val.order}`,
+                value: val[key.substring(0, key.length - 1)]
               })
             )
           : dispatch({

@@ -8,10 +8,12 @@ export default withRouter(({ location, history }) => {
   const handleSubmit = inputValues => {
     const instructionsArray = Object.entries(
       inputValues.instructions
-    ).map(([key, value]) => ({ [key]: value }));
+    // ).map(([key, value]) => ({ [key]: value }));
+    ).map(([key, value]) => (value));
     const ingredientsArray = Object.entries(
       inputValues.ingredients
-    ).map(([key, value]) => ({ [key]: value }));
+    // ).map(([key, value]) => ({ [key]: value }));
+    ).map(([key, value]) => (value));
     return api
       .fetch("/recipes", {
         method: "POST",

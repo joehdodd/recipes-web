@@ -52,7 +52,7 @@ textarea {
   color: #2f3c43;
   border: none;
   outline: none;
-  border-radius: 4px;
+  border-radius: 2px;
   font-size: 18px;
 }
 
@@ -168,7 +168,7 @@ textarea {
   grid-template-rows: repeat(6, 1fr);
   align-items: center;
   position: absolute;
-  top: -204px;
+  top: -210px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -229,6 +229,8 @@ textarea {
   grid-gap: 8px;
   width: 100%;
   border-radius: 2px;
+  background: #fafafa;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .main-container > button {
@@ -240,10 +242,6 @@ textarea {
   grid-template-columns: 0.25fr 1fr;
 }
 
-.recipes-container {
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
-}
-
 .recipe-rows-container {
   display: grid;
   grid-auto-flow: row;
@@ -251,11 +249,16 @@ textarea {
 
 .recipe-row {
   padding: 8px;
-  background: #fafafa;
+  background: transparent;
   border-bottom: 1px solid #ecf0f1;
   display: grid;
   grid-template-columns: 4fr 0.5fr;
   align-items: center;
+}
+
+.recipe-row:last-of-type {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
 .recipe-row h3 {
@@ -277,9 +280,8 @@ textarea {
 }
 
 .content-section {
-  background-color: #fafafa;
+  background-color: transparent;
   padding: 8px;
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .content-section h1 {
@@ -340,6 +342,10 @@ textarea {
 }
 
 @media screen and (min-width: 768px) {
+  .active-nav {
+    border-radius: 2px;
+  }
+  
   .nav {
     grid-auto-flow: column;
   }

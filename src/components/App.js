@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import { APIProvider } from "./APIContext";
+import { APIContext } from "./APIContext";
 import Authentication from "./Authentication";
 import MenuBar from "./MenuBar";
 import AddRecipeContainer from "./AddRecipeContainer";
@@ -56,12 +56,22 @@ const ProtectedRoutes = withRouter(
 );
 
 export default () => {
+  const apiContext = React.useContext(APIContext);
   const [searchTerm, setSearchTerm] = React.useState("");
   const onChange = e => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value)
+    console.log('value', e.target.value)
+    const endpoint = `/recipes/${e.target.value}`;
+    apiContext
+      .fetch(endpoint, {
+        method: "GET"
+      })
+      .then(res => {
+        console.log(res.data.data);
+      })
+      .catch(err => err);
   };
   return (
-    <APIProvider>
       <Authentication>
         {({ session, createSession, destroySession, user, setUser }) => (
           <>
@@ -80,10 +90,11 @@ export default () => {
                             display: "grid",
                             gridAutoFlow: "column",
                             gridGap: "8px",
-                            justifyContent: "start"
+                            justifyContent: "start",
+                            alignItems: "center"
                           }}
                         >
-                          <input value={searchTerm} onChange={onChange} />
+                          <input type="text" value={searchTerm} onChange={e => onChange(e, )} />
                           <span role="img" aria-label="search recipes">
                             &#128269;
                           </span>
@@ -116,6 +127,5 @@ export default () => {
           </>
         )}
       </Authentication>
-    </APIProvider>
   );
 };
