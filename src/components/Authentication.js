@@ -10,7 +10,6 @@ const useStateWithLocalStorage = localStorageKey => {
   );
 
   React.useEffect(() => {
-    console.log('value change', value)
     localStorage.setItem(localStorageKey, JSON.stringify(value));
   }, [value]);
 

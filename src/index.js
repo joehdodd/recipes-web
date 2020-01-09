@@ -3,10 +3,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./components/App";
+import { APIProvider } from "./components/APIContext";
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <APIProvider>
+      <App />
+    </APIProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );

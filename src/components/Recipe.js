@@ -15,10 +15,10 @@ export default ({
           <div className="content-section-top">
             <h1>{selectedRecipe.title}</h1>
             <div className="content-section-top-buttons">
-              {userRecipe && (
+              {/* {userRecipe && (
                 <button onClick={() => handleEditRecipe()}>Edit</button>
-              )}
-              {user && !user.favoriteRecipes.includes(selectedRecipe.id) && (
+              )} */}
+              {user && user.favoriteRecipes && !user.favoriteRecipes.includes(selectedRecipe.id) && (
                 <button onClick={() => handleFavoriteRecipe()}>Favorite</button>
               )}
             </div>
@@ -28,21 +28,21 @@ export default ({
           <h3>Ingredients</h3>
           <ul>
             {!!selectedRecipe.ingredients &&
-              selectedRecipe.ingredients.map((ing, i) => (
+              selectedRecipe.ingredients.sort((a, b) => a.order - b.order).map((ing, i) => (
                 <li key={`ingredient_${i}`} className="recipe-ingredient-item">
-                  <span>{ing[`ingredient_${i + 1}`]}</span>
+                  <span>{ing.ingredient}</span>
                 </li>
               ))}
           </ul>
           <h3>Instructions</h3>
           <ol>
             {!!selectedRecipe.instructions &&
-              selectedRecipe.instructions.map((inst, i) => (
+              selectedRecipe.instructions.sort((a, b) => a.order - b.order).map((inst, i) => (
                 <li
                   key={`instruction_${i}`}
                   className="recipe-instruction-item"
                 >
-                  <span>{inst[`instruction_${i + 1}`]}</span>
+                  <span>{inst.instruction}</span>
                 </li>
               ))}
           </ol>
