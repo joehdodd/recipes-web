@@ -49,7 +49,7 @@ export default withRouter(({ history, createSession }) => {
         }
       })
       .then(res => {
-        console.log("login success", res);
+        // console.log("login success", res);
         createSession(res.data.user);
         history.push("/home");
       })

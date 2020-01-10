@@ -2,7 +2,6 @@ import React from "react";
 
 // NOTE: custom hook below for setting value to state from local storage
 const useStateWithLocalStorage = localStorageKey => {
-
   const [value, setValue] = React.useState(
     localStorage.getItem(localStorageKey)
       ? JSON.parse(localStorage.getItem(localStorageKey))
@@ -17,10 +16,8 @@ const useStateWithLocalStorage = localStorageKey => {
 };
 
 export default ({ children }) => {
-  const [session, setSession] = React.useState(
-    !!document.cookie.includes("JWTAuth")
-  );
   const [user, setUser] = useStateWithLocalStorage("user");
+  const [session, setSession] = React.useState(!!user.id);
   const createSession = React.useCallback(user => {
     setSession(true);
     setUser(user);
