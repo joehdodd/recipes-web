@@ -9,15 +9,17 @@ const RecipeRow = ({ user, recipe, handleSelect }) => {
   return (
     <div className="recipe-row" onClick={handleSelect}>
       <h3>{recipe.title}</h3>
-      {user && user.favoriteRecipes && user.favoriteRecipes.includes(recipe.id) && (
-        <span
-          role="img"
-          aria-label="favorite recipe"
-          style={{ fontSize: "32px", justifySelf: "end" }}
-        >
-          ⭐️
-        </span>
-      )}
+      {user &&
+        user.favoriteRecipes &&
+        user.favoriteRecipes.includes(recipe.id) && (
+          <span
+            role="img"
+            aria-label="favorite recipe"
+            style={{ fontSize: "32px", justifySelf: "end" }}
+          >
+            ⭐️
+          </span>
+        )}
     </div>
   );
 };
@@ -80,14 +82,14 @@ export default withRouter(({ user, location, searchTerm, setUser }) => {
     }
   }, [location.state]);
   const handleUpdateRecipe = inputValues => {
-    const instructionsArray = Object.entries(
-      inputValues.instructions
-    ).map(([key, value]) => (value ));
-    const ingredientsArray = Object.entries(
-      inputValues.ingredients
-    ).map(([key, value]) => (value));
-    console.log('***instArr', instructionsArray);
-    console.log('***ingArr', ingredientsArray);
+    const instructionsArray = Object.entries(inputValues.instructions).map(
+      ([key, value]) => value
+    );
+    const ingredientsArray = Object.entries(inputValues.ingredients).map(
+      ([key, value]) => value
+    );
+    console.log("***instArr", instructionsArray);
+    console.log("***ingArr", ingredientsArray);
     // apiContext
     //   .fetch(`/recipes/${selectedRecipe.id}`, {
     //     method: "PUT",
@@ -138,7 +140,9 @@ export default withRouter(({ user, location, searchTerm, setUser }) => {
     ) : (
       <Recipe
         userRecipe={
-          user && user.id.toString() === selectedRecipe.userId.toString()
+          user &&
+          user.id &&
+          user.id.toString() === selectedRecipe.userId.toString()
             ? true
             : false
         }
