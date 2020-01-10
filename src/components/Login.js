@@ -2,7 +2,6 @@ import React from "react";
 import { APIContext } from "./APIContext";
 // import { AuthContext } from "./AuthenticationContext";
 import { withRouter } from "react-router-dom";
-import "./App.css";
 
 export default withRouter(({ history, createSession }) => {
   const apiContext = React.useContext(APIContext);
