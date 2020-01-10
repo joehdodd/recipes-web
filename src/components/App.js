@@ -8,7 +8,6 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import RecipesContainer from "./RecipesContainer";
 import Profile from "./Profile";
-import "./App.css";
 
 const ProtectedRoutes = withRouter(
   ({
