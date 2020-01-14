@@ -80,7 +80,7 @@ export default () => {
                 <Switch>
                   <Route
                     exact
-                    path="/home"
+                    path="/"
                     render={() => (
                       <div className="main-content">
                         <div

@@ -27,25 +27,29 @@ export default withRouter(
     };
     return (
       <header
-        className={`menu-bar-wrapper ${isMenuBarOpen && "menu-bar-wrapper-open"}`}
+        className={`menu-bar-wrapper ${isMenuBarOpen &&
+          "menu-bar-wrapper-open"}`}
       >
         <div className="nav">
-          <NavLink activeClassName="active-nav" to={{ pathname: "/home" }}>
+          <NavLink exact activeClassName="active-nav" to={{ pathname: "/" }}>
             {"Home"}
           </NavLink>
           <NavLink
+            exact
             activeClassName="active-nav"
             to={{ pathname: "/user-recipes" }}
           >
             {"Your Recipes"}
           </NavLink>
           <NavLink
+            eact
             activeClassName="active-nav"
             to={{ pathname: "/add-recipe" }}
           >
             {"Add Recipe"}
           </NavLink>
           <NavLink
+            exact
             activeClassName="active-nav"
             to={{ pathname: "/user-profile" }}
           >

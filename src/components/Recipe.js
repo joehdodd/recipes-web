@@ -1,4 +1,5 @@
 import React from "react";
+import CommentsContainer from "./CommentsContainer";
 
 export default ({
   user,
@@ -11,6 +12,7 @@ export default ({
   return (
     <React.Fragment>
       {!!Object.keys(selectedRecipe).length && (
+        <>
         <div className="content-section">
           <div className="content-section-top">
             <h1>{selectedRecipe.title}</h1>
@@ -58,22 +60,9 @@ export default ({
                 ))}
           </ol>
           <button onClick={() => setSelectedRecipe({})}>All</button>
-          <div className="content-section">
-            <h3>Comments</h3>
-            <hr/>
-            {!!selectedRecipe.comments && !!selectedRecipe.comments.length ? (
-              selectedRecipe.comments.map(comment => (
-                <div>
-                  <span>{comment.comment}</span>
-                </div>
-              ))
-            ) : (
-              <div>
-                <span>No comments yet!</span>
-              </div>
-            )}
-          </div>
         </div>
+        <CommentsContainer comments={selectedRecipe.comments}/>
+        </>
       )}
     </React.Fragment>
   );
