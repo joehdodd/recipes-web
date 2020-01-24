@@ -33,7 +33,7 @@ ul {
   color: #2f3c43;
 }
 
-h2, 
+h2,
 h3 {
   margin-top: 0;
   color: #586f7c;
@@ -279,6 +279,30 @@ textarea {
   font-weight: normal;
 }
 
+.recipe-comment-container {
+  margin: 16px 0px;
+  display: grid;
+  padding: 8px 0px;
+  grid-auto-flow: row;
+  grid-gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #586f7c;
+}
+
+.recipe-comment-info {
+  display: grid;
+  grid-gap: 4px;
+  grid-auto-flow: column;
+  justify-content: start;
+}
+
+.recipe-comment-info span {
+  font-size: 12px;
+  font-style: italic;
+  color: #9db2b7;
+}
+
 .content-section {
   background-color: transparent;
   padding: 8px;
@@ -345,7 +369,7 @@ textarea {
   .active-nav {
     border-radius: 2px;
   }
-  
+
   .nav {
     grid-auto-flow: column;
   }
@@ -354,7 +378,7 @@ textarea {
     min-height: 300px;
     width: 600px;
   }
-  
+
   .menu-bar-wrapper {
     position: fixed;
     top: 0;

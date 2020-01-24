@@ -51,7 +51,7 @@ export default withRouter(({ history, createSession }) => {
       .then(res => {
         // console.log("login success", res);
         createSession(res.data.user);
-        history.push("/home");
+        history.push("/");
       })
       .catch(err => {
         console.log("session err", err.response);
