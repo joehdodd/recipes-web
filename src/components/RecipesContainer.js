@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { APIContext } from "./APIContext";
 import RecipeRow from "./RecipeRow";
 import Recipe from "./Recipe";
@@ -27,141 +28,64 @@ const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
   );
 };
 
-export default withRouter(
-  ({ recipeId, user, location, searchTerm, setUser }) => {
-    const apiContext = React.useContext(APIContext);
-    const [recipes, setRecipes] = React.useState([]);
-    const [selectedRecipe, setSelectedRecipe] = React.useState({});
-    const [editingRecipe, setEditingRecipe] = React.useState(false);
-    const [fetching, setFetching] = React.useState(true);
-    // React.useEffect(() => {
-    //   const endpoint =
-    //     !!user && location.pathname === "/user-recipes"
-    //       ? `/users/${user.id}/recipes`
-    //       : "/recipes";
-    //   setFetching(true);
-    //   apiContext
-    //     .fetch(endpoint, {
-    //       method: "GET"
-    //     })
-    //     .then(res => {
-    //       setFetching(false);
-    //       setRecipes(res.data.data);
-    //     })
-    //     .catch(err => err);
-    // }, [user]);
-    React.useEffect(() => {
-      const endpoint = `/recipes/${recipeId}`;
-      setFetching(true);
-      apiContext
-        .fetch(endpoint, {
-          method: "GET"
-        })
-        .then(res => {
-          setFetching(false);
-          setSelectedRecipe(...res.data.data);
-        })
-        .catch(err => err);
-    }, []);
-    // React.useEffect(() => {
-    //   // if (location.state !== undefined) {
-    //   //   setSelectedRecipe(location.state);
-    //   // }
-    // }, [location.state]);
-    const handleUpdateRecipe = inputValues => {
-      const instructionsArray = Object.entries(inputValues.instructions).map(
-        ([key, value]) => value
-      );
-      const ingredientsArray = Object.entries(inputValues.ingredients).map(
-        ([key, value]) => value
-      );
-      console.log("***instArr", instructionsArray);
-      console.log("***ingArr", ingredientsArray);
-      // apiContext
-      //   .fetch(`/recipes/${selectedRecipe.id}`, {
-      //     method: "PUT",
-      //     data: {
-      //       title: inputValues.title,
-      //       description: inputValues.description,
-      //       instructionsArray,
-      //       ingredientsArray
-      //     }
-      //   })
-      //   .then(res => {
-      //     setSelectedRecipe({ ...res.data.data });
-      //     setEditingRecipe(false);
-      //   })
-      //   .catch(err => err);
-    };
-    const handleFavoriteRecipe = () => {
-      let recipeId = selectedRecipe.id;
-      let userId = user.id;
-      apiContext
-        .fetch(`/users`, {
-          method: "PUT",
-          data: {
-            userId,
-            recipeId
+class RecipesContainer extends React.Component {
+  handleRenderRecipe = () => {
+    return this.props.editingRecipe ? (
+      <div className="content-section">
+        <RecipeForm
+          inputValues={this.props.selectedRecipe}
+          handleSubmit={inputValues =>
+            this.props.handleUpdateRecipe(inputValues)
           }
-        })
-        .then(res => {
-          console.log(res);
-          setUser(res.data.data);
-        })
-        .catch(err => err);
-    };
-    const handleRenderRecipe = () => {
-      return editingRecipe ? (
-        <div className="content-section">
-          <RecipeForm
-            inputValues={selectedRecipe}
-            handleSubmit={inputValues => handleUpdateRecipe(inputValues)}
-          />
-          <button
-            style={{ margin: "4px" }}
-            onClick={() => setEditingRecipe(false)}
-          >
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <Recipe
-          userRecipe={
-            user &&
-            user.id &&
-            user.id.toString() === selectedRecipe.userId.toString()
-              ? true
-              : false
-          }
-          user={user}
-          handleEditRecipe={() => setEditingRecipe(true)}
-          selectedRecipe={selectedRecipe}
-          setSelectedRecipe={setSelectedRecipe}
-          handleFavoriteRecipe={handleFavoriteRecipe}
         />
-      );
-    };
-    console.log("SELECTED", selectedRecipe);
+        <button
+          style={{ margin: "4px" }}
+          onClick={() => this.props.setEditingRecipe(false)}
+        >
+          Cancel
+        </button>
+      </div>
+    ) : (
+      <Recipe
+        userRecipe={
+          this.props.user &&
+          this.props.user.id &&
+          this.props.user.id.toString() ===
+            this.props.selectedRecipe.userId.toString()
+            ? true
+            : false
+        }
+        user={this.props.user}
+        handleEditRecipe={() => this.props.setEditingRecipe(true)}
+        selectedRecipe={this.props.selectedRecipe}
+        setSelectedRecipe={this.props.setSelectedRecipe}
+        handleFavoriteRecipe={this.props.handleFavoriteRecipe}
+      />
+    );
+  };
+  render() {
     return (
       <>
-        {!fetching && (
+        {!this.props.fetching && (
           <>
-            {selectedRecipe.id ? (
-              handleRenderRecipe()
+            {this.props.selectedRecipe.id ? (
+              this.handleRenderRecipe()
             ) : (
               <Recipes
                 text={
-                  user ? "You don't have any recipes!" : "There are no recipes!"
+                  this.props.user
+                    ? "You don't have any recipes!"
+                    : "There are no recipes!"
                 }
-                user={user}
-                recipes={recipes}
-                setSelectedRecipe={setSelectedRecipe}
-                searchTerm={searchTerm}
+                user={this.props.user}
+                recipes={this.props.recipes}
+                setSelectedRecipe={this.props.setSelectedRecipe}
+                searchTerm={this.props.searchTerm}
               />
             )}
           </>
         )}
-        {fetching && (
+        {this.props.fetching && (
           <div className="recipe-row">
             <h3>
               Loading yummy...{" "}
@@ -174,4 +98,12 @@ export default withRouter(
       </>
     );
   }
-);
+}
+
+const mapStateToProps = ({ recipesReducer }) => {
+  return {
+    recipes: recipesReducer.recipes
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(RecipesContainer));

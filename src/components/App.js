@@ -38,6 +38,7 @@ const ProtectedRoutes = withRouter(
               setUser={setUser}
               searchTerm={searchTerm}
               onChange={onChange}
+              selectedRecipe={{}}
             />
           )}
         />
@@ -102,19 +103,27 @@ export default () => {
                           &#128269;
                         </span>
                       </div>
-                      <RecipesContainer user={user} searchTerm={searchTerm} />
+                      <RecipesContainer
+                        user={user}
+                        searchTerm={searchTerm}
+                        selectedRecipe={{}}
+                      />
                     </div>
                   )}
                 />
                 <Route
                   exact
                   path="/recipe/:recipeId"
-                  render={({ match }) => (
-                    <RecipesContainer
-                      user={user}
-                      recipeId={match.params.recipeId}
-                    />
-                  )}
+                  render={({ match }) => {
+                    console.log("match", match);
+                    return (
+                      <RecipesContainer
+                        user={user}
+                        recipeId={match.params.recipeId}
+                        selectedRecipe={{}}
+                      />
+                    );
+                  }}
                 />
                 <Route exact path="/sign-up" component={SignUp} />
                 <Route
