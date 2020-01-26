@@ -7,24 +7,32 @@ import RecipeRow from "./RecipeRow";
 import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
 
+const RecipesError = ({ text }) => (
+  <div className="recipe-row">
+    <h3>
+      Whoops! {text}{" "}
+      <span role="img" aria-label="crying emoji">
+        😩
+      </span>
+    </h3>
+  </div>
+);
+
 const RecipeRows = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
-  return recipes && recipes.length ? (
-    recipes.map(recipe => (
-      <RecipeRow
-        user={user}
-        key={recipe.id}
-        recipe={recipe}
-        handleSelect={() => setSelectedRecipe(recipe.id)}
-      />
-    ))
-  ) : (
-    <div className="recipe-row">
-      <h3>
-        Whoops! {text}{" "}
-        <span role="img" aria-label="crying emoji">
-          😩
-        </span>
-      </h3>
+  return (
+    <div>
+      {recipes && recipes.length ? (
+        recipes.map(recipe => (
+          <RecipeRow
+            user={user}
+            key={recipe.id}
+            recipe={recipe}
+            handleSelect={() => setSelectedRecipe(recipe.id)}
+          />
+        ))
+      ) : (
+        <RecipesError text={text} />
+      )}
     </div>
   );
 };
