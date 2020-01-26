@@ -1,12 +1,13 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { fetchRecipes } from "../redux/actions/recipes";
 import { APIContext } from "./APIContext";
 import RecipeRow from "./RecipeRow";
 import Recipe from "./Recipe";
 import RecipeForm from "./RecipeForm";
 
-const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
+const RecipeRows = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
   return recipes && recipes.length ? (
     recipes.map(recipe => (
       <RecipeRow
@@ -29,6 +30,9 @@ const Recipes = ({ text, recipes, setSelectedRecipe, searchTerm, user }) => {
 };
 
 class RecipesContainer extends React.Component {
+  componentDidMount() {
+    this.props.fetchRecipes();
+  }
   handleRenderRecipe = () => {
     return this.props.editingRecipe ? (
       <div className="content-section">
@@ -71,7 +75,7 @@ class RecipesContainer extends React.Component {
             {this.props.selectedRecipe.id ? (
               this.handleRenderRecipe()
             ) : (
-              <Recipes
+              <RecipeRows
                 text={
                   this.props.user
                     ? "You don't have any recipes!"
@@ -100,10 +104,20 @@ class RecipesContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ recipesReducer }) => {
+const mapDispatchToProps = dispatch => {
   return {
-    recipes: recipesReducer.recipes
+    fetchRecipes: id => {
+      dispatch(fetchRecipes(id));
+    }
   };
 };
 
-export default withRouter(connect(mapStateToProps)(RecipesContainer));
+const mapStateToProps = ({ recipes }) => {
+  return {
+    recipes: recipes.recipes
+  };
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(RecipesContainer)
+);
