@@ -113,17 +113,13 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchRecipes: () => {
       dispatch(fetchRecipes());
-    },
-    fetchRecipe: id => {
-      dispatch(fetchRecipes(id));
     }
   };
 };
 
 const mapStateToProps = ({ recipes }) => {
   return {
-    recipes: recipes.recipes,
-    recipe: recipes.recipe
+    recipes: recipes.recipes
   };
 };
 

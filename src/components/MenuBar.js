@@ -31,18 +31,25 @@ export default withRouter(
           "menu-bar-wrapper-open"}`}
       >
         <div className="nav">
-          <NavLink exact activeClassName="active-nav" to={{ pathname: "/" }}>
+          <NavLink
+            exact
+            className="nav-link"
+            activeClassName="active-nav"
+            to={{ pathname: "/" }}
+          >
             {"Home"}
           </NavLink>
           <NavLink
             exact
+            className="nav-link"
             activeClassName="active-nav"
             to={{ pathname: "/user-recipes" }}
           >
             {"Your Recipes"}
           </NavLink>
           <NavLink
-            eact
+            exact
+            className="nav-link"
             activeClassName="active-nav"
             to={{ pathname: "/add-recipe" }}
           >
@@ -50,6 +57,7 @@ export default withRouter(
           </NavLink>
           <NavLink
             exact
+            className="nav-link"
             activeClassName="active-nav"
             to={{ pathname: "/user-profile" }}
           >

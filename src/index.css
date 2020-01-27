@@ -69,15 +69,15 @@ button:hover {
   background-color: #2f4550;
 }
 
-.menu-bar-wrapper a {
+.nav-link {
   text-decoration: none;
-  padding: 10px;
+  padding: 6px;
   color: #586f7c;
   border-radius: 4px;
   text-align: center;
 }
 
-.menu-bar-wrapper a:hover {
+.nav-link:hover {
   cursor: pointer;
   color: #2f4550;
   background-color: #f4f4f9;
@@ -419,7 +419,7 @@ textarea {
     position: fixed;
     top: 0;
     display: grid;
-    height: 50px;
+    height: 36px;
     grid-template-columns: 0.5fr 1fr;
     align-items: center;
     background-color: #fafafa;

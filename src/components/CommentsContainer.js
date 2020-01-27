@@ -37,33 +37,55 @@ const CommentBox = ({ handleSubmitComment }) => {
   );
 };
 
-export default ({ comments, user, recipeId }) => {
-  const [recipeComments, setRecipeComments] = React.useState([...comments]);
-  const apiContext = React.useContext(APIContext);
-  const handleSubmitComment = comment => {
-    apiContext
-      .fetch(`/comments`, {
-        method: "POST",
-        data: {
-          comment,
-          recipeId
-        }
-      })
-      .then(res => {
-        console.log("res", res);
-        setRecipeComments(pS => [res.data.data, ...pS]);
-      })
-      .catch(err => err);
+// export default ({ comments, user, recipeId }) => {
+//   const [recipeComments, setRecipeComments] = React.useState([...comments]);
+//   const apiContext = React.useContext(APIContext);
+//   const handleSubmitComment = comment => {
+//     apiContext
+//       .fetch(`/comments`, {
+//         method: "POST",
+//         data: {
+//           comment,
+//           recipeId
+//         }
+//       })
+//       .then(res => {
+//         console.log("res", res);
+//         setRecipeComments(pS => [res.data.data, ...pS]);
+//       })
+//       .catch(err => err);
+//   };
+//   return (
+//     <div className="content-section">
+//       <h3>Comments</h3>
+//       {!!recipeComments.length ? (
+//         <Comments comments={recipeComments} />
+//       ) : (
+//         <span>No comments yet!</span>
+//       )}
+//       {!!user && <CommentBox handleSubmitComment={handleSubmitComment} />}
+//     </div>
+//   );
+// };
+
+class CommentsContainer extends React.Component {
+  handleChange = () => {
+    console.log("submit comment");
   };
-  return (
-    <div className="content-section">
-      <h3>Comments</h3>
-      {!!recipeComments.length ? (
-        <Comments comments={recipeComments} />
-      ) : (
-        <span>No comments yet!</span>
-      )}
-      {!!user && <CommentBox handleSubmitComment={handleSubmitComment} />}
-    </div>
-  );
-};
+  render() {
+    const { comments, user, recipeId } = this.props;
+    return (
+      <div className="content-section">
+        <h3>Comments</h3>
+        {!!comments && !!comments.length ? (
+          <Comments comments={comments} />
+        ) : (
+          <span>No comments yet!</span>
+        )}
+        {!!user && <CommentBox handleSubmitComment={this.handleSubmitComment} />}
+      </div>
+    );
+  }
+}
+
+export default CommentsContainer;

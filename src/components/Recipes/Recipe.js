@@ -10,7 +10,6 @@ export default ({
   handleFavoriteRecipe,
   recipe
 }) => {
-  console.log(recipe.comments)
   return (
     <>
       <div className="content-section">
