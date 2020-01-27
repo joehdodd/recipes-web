@@ -6,7 +6,8 @@ import MenuBar from "./MenuBar";
 import AddRecipeContainer from "./AddRecipeContainer";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import RecipesContainer from "./RecipesContainer";
+import RecipesContainer from "./Recipes/RecipesContainer";
+import RecipeContainer from "./Recipes/RecipeContainer";
 import Profile from "./Profile";
 
 const ProtectedRoutes = withRouter(
@@ -114,16 +115,12 @@ export default () => {
                 <Route
                   exact
                   path="/recipe/:recipeId"
-                  render={({ match }) => {
-                    console.log("match", match);
-                    return (
-                      <RecipesContainer
-                        user={user}
-                        recipeId={match.params.recipeId}
-                        selectedRecipe={{}}
-                      />
-                    );
-                  }}
+                  render={({ match }) => (
+                    <RecipeContainer
+                      user={user}
+                      recipeId={match.params.recipeId}
+                    />
+                  )}
                 />
                 <Route exact path="/sign-up" component={SignUp} />
                 <Route
